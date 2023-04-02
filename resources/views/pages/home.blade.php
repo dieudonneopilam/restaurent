@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('main')
-<div class="container flex flex-col w-11/12 p-5 mx-auto mt-5 bg-white shadow-xl rounded-md sm:w-4/5">
+<div class="container flex flex-col w-11/12 p-5 mx-auto mt-5 rounded-md sm:w-4/5">
     <div>
         <h1 class="mb-10 text-3xl text-center">Menu General</h1>
     </div>
@@ -13,17 +13,17 @@
             <img class="h-36 rounded" src="{{ asset('img/vente.webp') }}" alt="">
              <a class="text-blue-600 " href="{{ route('produit.index') }}">Produit</a>
          </div>
-        <div class="bg-white rounded-md pb-5 shadow-md border ">
+        {{-- <div class="bg-white rounded-md pb-5 shadow-md border ">
             <img class="h-36 rounded" src="{{ asset('img/stock.webp') }}" alt="">
             <a class="text-blue-600 " href="">Stock</a>
-        </div>
+        </div> --}}
         <div class="rounded-md pb-5 shadow-md border">
            <img class="h-36 rounded" src="{{ asset('img/achat.jpg') }}" alt="">
             <a class="text-blue-600 " href="">Achats</a>
         </div>
         <div class="bg-white border shadow-md rounded-md pb-5">
            <img class="h-36 rounded" src="{{ asset('img/vente.png') }}" alt="">
-            <a class="text-blue-600 " href="">Ventes</a>
+            <a class="text-blue-600 " href="{{ route('vente.index') }}">Ventes</a>
         </div>
         <div class=" bg-white shadow-md border rounded-md pb-5">
             <img class="h-36 rounded" src="{{ asset('img/dette.jpg') }}" alt="">
