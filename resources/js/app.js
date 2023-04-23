@@ -1,4 +1,5 @@
 import './bootstrap';
+import Chart from 'chart.js/auto';
 
 (function(){
     var ListMenuUser = document.querySelectorAll('.menu-user');

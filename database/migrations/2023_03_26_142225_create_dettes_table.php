@@ -19,8 +19,9 @@ return new class extends Migration
             $table->dateTime('date_dette');
             $table->string('name_dette');
             $table->foreignId('user_id')->constrained();
-            $table->unsignedBigInteger('user_tit');
-            $table->foreign('user_tit')->references('id')->on('users');
+            $table->boolean('deleted')->default(0);
+            $table->boolean('payed')->default(0);
+            $table->dateTime('date_deleted')->nullable();
             $table->timestamps();
         });
     }

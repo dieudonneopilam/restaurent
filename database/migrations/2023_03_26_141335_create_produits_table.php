@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('designation');
             $table->mediumText('file');
             $table->integer('qte');
+            $table->integer('stock_alerte');
+            $table->boolean('deleted')->default(0);
+            $table->dateTime('date_deleted')->nullable();
             $table->timestamps();
         });
     }

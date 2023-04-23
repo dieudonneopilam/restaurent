@@ -1,117 +1,256 @@
-<div class="overflow-x-auto">
-    <div class="min-w-screen  flex items-center p-2 justify-center bg-gray-100 font-sans overflow-hidden">
-        <div class="w-full m-5 lg:w-5/6">
-            <div class="flex flex-wrap-reverse justify-between items-center">
-                <input class="h-10 rounded border w-full sm:w-2/3 px-5" wire:model="search" placeholder="search vente">
-                <a href="{{ route('vente.create') }}" class="flex items-center text-white my-2 bg-blue-500 rounded border h-10 px-2">Nouvelle vente</a>
-            </div>
-            <div class="bg-white shadow-md rounded my-1 overflow-x-auto m-1">
-                <table class="min-w-max w-full table-auto">
-                    <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6 text-left">DATE</th>
-                            <th class="py-3 px-6 text-left">PRODUIT</th>
-                            <th class="py-3 px-6 text-left">QUANTITE</th>
-                            <th class="py-3 px-6 text-left">PRIX</th>
-                            <th class="py-3 px-6 text-left">TOTAL</th>
-                            <th class="py-3 px-6 text-left">SERVEUR</th>
-                            <th class="py-3 px-6 text-left">ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        @foreach ($ventes as $vente)
-                        <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <span class="font-medium">{{ $user->email }}</span>
-                                </div>
-                            </td>
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="mr-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24"
-                                            height="24" viewBox="0 0 48 48" style=" fill:#000000;">
-                                            <path fill="#80deea"
-                                                d="M24,34C11.1,34,1,29.6,1,24c0-5.6,10.1-10,23-10c12.9,0,23,4.4,23,10C47,29.6,36.9,34,24,34z M24,16	c-12.6,0-21,4.1-21,8c0,3.9,8.4,8,21,8s21-4.1,21-8C45,20.1,36.6,16,24,16z">
-                                            </path>
-                                            <path fill="#80deea"
-                                                d="M15.1,44.6c-1,0-1.8-0.2-2.6-0.7C7.6,41.1,8.9,30.2,15.3,19l0,0c3-5.2,6.7-9.6,10.3-12.4c3.9-3,7.4-3.9,9.8-2.5	c2.5,1.4,3.4,4.9,2.8,9.8c-0.6,4.6-2.6,10-5.6,15.2c-3,5.2-6.7,9.6-10.3,12.4C19.7,43.5,17.2,44.6,15.1,44.6z M32.9,5.4	c-1.6,0-3.7,0.9-6,2.7c-3.4,2.7-6.9,6.9-9.8,11.9l0,0c-6.3,10.9-6.9,20.3-3.6,22.2c1.7,1,4.5,0.1,7.6-2.3c3.4-2.7,6.9-6.9,9.8-11.9	c2.9-5,4.8-10.1,5.4-14.4c0.5-4-0.1-6.8-1.8-7.8C34,5.6,33.5,5.4,32.9,5.4z">
-                                            </path>
-                                            <path fill="#80deea"
-                                                d="M33,44.6c-5,0-12.2-6.1-17.6-15.6C8.9,17.8,7.6,6.9,12.5,4.1l0,0C17.4,1.3,26.2,7.8,32.7,19	c3,5.2,5,10.6,5.6,15.2c0.7,4.9-0.3,8.3-2.8,9.8C34.7,44.4,33.9,44.6,33,44.6z M13.5,5.8c-3.3,1.9-2.7,11.3,3.6,22.2	c6.3,10.9,14.1,16.1,17.4,14.2c1.7-1,2.3-3.8,1.8-7.8c-0.6-4.3-2.5-9.4-5.4-14.4C24.6,9.1,16.8,3.9,13.5,5.8L13.5,5.8z">
-                                            </path>
-                                            <circle cx="24" cy="24" r="4" fill="#80deea"></circle>
-                                        </svg>
-                                    </div>
-                                    <span class="font-medium">{{ $user->designation }}</span>
-                                </div>
-                            </td>
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <span class="font-medium">10</span>
-                                </div>
-                            </td>
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <span class="font-medium">100</span>
-                                </div>
-                            </td>
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <span class="font-medium">1000</span>
-                                </div>
-                            </td>
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="mr-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24"
-                                            height="24" viewBox="0 0 48 48" style=" fill:#000000;">
-                                            <path fill="#80deea"
-                                                d="M24,34C11.1,34,1,29.6,1,24c0-5.6,10.1-10,23-10c12.9,0,23,4.4,23,10C47,29.6,36.9,34,24,34z M24,16	c-12.6,0-21,4.1-21,8c0,3.9,8.4,8,21,8s21-4.1,21-8C45,20.1,36.6,16,24,16z">
-                                            </path>
-                                            <path fill="#80deea"
-                                                d="M15.1,44.6c-1,0-1.8-0.2-2.6-0.7C7.6,41.1,8.9,30.2,15.3,19l0,0c3-5.2,6.7-9.6,10.3-12.4c3.9-3,7.4-3.9,9.8-2.5	c2.5,1.4,3.4,4.9,2.8,9.8c-0.6,4.6-2.6,10-5.6,15.2c-3,5.2-6.7,9.6-10.3,12.4C19.7,43.5,17.2,44.6,15.1,44.6z M32.9,5.4	c-1.6,0-3.7,0.9-6,2.7c-3.4,2.7-6.9,6.9-9.8,11.9l0,0c-6.3,10.9-6.9,20.3-3.6,22.2c1.7,1,4.5,0.1,7.6-2.3c3.4-2.7,6.9-6.9,9.8-11.9	c2.9-5,4.8-10.1,5.4-14.4c0.5-4-0.1-6.8-1.8-7.8C34,5.6,33.5,5.4,32.9,5.4z">
-                                            </path>
-                                            <path fill="#80deea"
-                                                d="M33,44.6c-5,0-12.2-6.1-17.6-15.6C8.9,17.8,7.6,6.9,12.5,4.1l0,0C17.4,1.3,26.2,7.8,32.7,19	c3,5.2,5,10.6,5.6,15.2c0.7,4.9-0.3,8.3-2.8,9.8C34.7,44.4,33.9,44.6,33,44.6z M13.5,5.8c-3.3,1.9-2.7,11.3,3.6,22.2	c6.3,10.9,14.1,16.1,17.4,14.2c1.7-1,2.3-3.8,1.8-7.8c-0.6-4.3-2.5-9.4-5.4-14.4C24.6,9.1,16.8,3.9,13.5,5.8L13.5,5.8z">
-                                            </path>
-                                            <circle cx="24" cy="24" r="4" fill="#80deea"></circle>
-                                        </svg>
-                                    </div>
-                                    <span class="font-medium">React Project</span>
-                                </div>
-                            </td>
-                            <td class="py-3 px-6 text-left inline-block">
-                                <div class="flex item-center justify-center">
-                                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                        </svg>
-                                    </div>
-                                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                        </svg>
-                                    </div>
-                                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+<div x-data="{ openadd: false, opentable: true }">
+    <div x-show="openadd" class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
+        <div class="hidden w-full p-10 md:block h-96">
+            <img class="object-fill w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ asset('img/vendre.webp') }}" alt="" srcset="">
+        </div>
+        <div class="flex flex-col justify-around p-5">
+            <form x-data="{ open: false, dette : false }" wire:submit.prevent='submit' class="flex flex-col items-start justify-between">
+                <div class="flex justify-end w-full">
+                    <a x-on:click="openadd=false,opentable=true" wire:click="forget" class="" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="w-full my-3">
+                    <label for="">Selection le produit</label>
+                    <select wire:model.defer='produit_id' class="w-full h-10 p-1 pl-2 border rounded">
+                        <option value="null">select produit</option>
+                        @foreach ($produits as $produit)
+                        @if (!$produit->deleted)
+                        <option value="{{ $produit->id }}">{{ $produit->designation }}</option>
+                        @endif
                         @endforeach
-                    </tbody>
-                </table>
+                    </select>
+                </div>
+                <div class='text-red-600'>
+                    @error('produit_id')
+                    {{ $message }}
+                    @enderror
+                </div>
+                <div class="w-full my-3">
+                    <label for="">Quantite à vendre </label>
+                    <input class="w-full h-10 p-1 pl-2 border rounded" placeholder="ex: 1" wire:model.defer="qte_vendu" type="number">
+                </div>
+                <div class='text-red-600'>
+                    @error('qte_vendu')
+                    {{ $message }}
+                    @enderror
+                </div>
+                <div class="w-full my-3">
+                    <label for="">Prix Unitaire</label>
+                    <input wire:model.defer='prix_vente' class="w-full h-10 p-1 pl-2 border rounded" type="number">
+                </div>
+                <div class='text-red-600'>
+                    @error('prix_vente')
+                    {{ $message }}
+                    @enderror
+                </div>
+                @if(!Auth::user()->is_server)
+                <div class="flex items-center ">
+                    <input wire:model.defer='me' x-on:click="open =! open" id="me" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
+                    <label class="ml-5" for="me">select server</label>
+                </div>
+                <div x-show="open" x-transition.duration.500ms class="w-full my-3">
+                    <label for="">Selectionner le serveur</label>
+                    <select wire:model.defer='server_id' class="w-full h-10 p-1 pl-2 border rounded">
+                        <option value="null">select serveur</option>
+                        @foreach ($agents as $agent)
+                        <option value="{{ $agent->id }}">{{ $agent->name }} {{ $agent->lastname }}</option>
+                        @endforeach
+                    </select>
+                    <div class='text-red-600'>
+                        @error('server_id')
+                        {{ $message }}
+                        @enderror
+                    </div>
+                </div>
+                @endif
+                <div class="flex items-center ">
+                    <input wire:model.defer='me_dette' x-on:click="dette =! dette" id="me_dette" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
+                    <label class="ml-5" for="me_dette">dette</label>
+                </div>
+                <div x-show="dette" x-transition.duration.500ms class="w-full my-3">
+                    <div class="w-full my-3">
+                        <label for="">Name Person</label>
+                        <input wire:model.defer='name_dette' class="w-full h-10 p-1 pl-2 border rounded" type="text">
+                    </div>
+                    <div class='text-red-600'>
+                        @error('prix_vente')
+                        {{ $message }}
+                        @enderror
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <button wire:loading type="button" class="text-blue-500" disabled>
+                        Processing...
+                    </button>
+                </div>
+                @if (session()->has('message'))
+                <div x-data="{ openadd: false, opentable: true }" class="w-full p-5 bg-green-400 rounded">
+                    
+                    <div class=" alert-success">
+                        {{ session('message') }}
+                    </div>
+
+                </div>
+                @endif
+                <div class="w-full my-3">
+                    <input type="submit" class="w-full h-10 p-1 font-bold text-white bg-blue-500 rounded" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div x-show="opentable" class="overflow-x-auto">
+        <div class="flex items-center justify-center p-2 overflow-hidden font-sans bg-white min-w-screen">
+            <div class="w-full m-5 lg:w-5/6">
+                <div class="flex flex-wrap-reverse items-center justify-between mx-1">
+                    <div class="w-full h-10 sm:w-2/3">
+                        <input x-mask="9999-99-99" class="w-4/5 h-full px-5 border rounded sm:w-1/2" wire:model.debounce.1000ms="search" placeholder="AAAA/MM/JR">
+                        <select wire:model='nbpage' class="w-1/6 h-full px-1 border rounded" name="" id="">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <span class="flex items-center text-lg">{{ $montant_valide.' Fc' }}
+                        <div class="flex justify-center text-green-500 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                                <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
+                            </svg>
+                        </div>
+                    </span>
+                    <span class="flex items-center text-lg">{{ $montant_invalide.' Fc' }}
+                        <div class="flex justify-center text-red-500 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-exclamation" viewBox="0 0 16 16">
+                                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
+                            </svg>
+                        </div>
+                    </span>
+                    <a x-on:click="{ openadd=false }" href="{{ route('home') }}" x-on:click="openadd=true,opentable=false" class="flex items-center h-10 px-2 my-2 text-white border rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 96 960 960" width="30">
+                            <path
+                                d="M220 876h150V626h220v250h150V486L480 291 220 486v390Zm-60 60V456l320-240 320 240v480H530V686H430v250H160Zm320-353Z" />
+                        </svg>
+                    </a>
+                    <a href="#" x-on:click="openadd=true,opentable=false" class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouvelle
+                        vente</a>
+                </div>
+                <div class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
+                    {{ $ventes->links() }}
+                    <!-- <div class="flex justify-center">
+                        <button wire:loading type="button" class="text-blue-500" disabled>
+                            Processing...
+                        </button>
+                    </div> -->
+                    <table class="w-full table-auto min-w-max">
+                        <thead>
+                            <tr class="text-sm leading-normal text-gray-600 uppercase bg-gray-200">
+                                <th class="px-6 py-3 text-left">DATE</th>
+                                <th class="px-6 py-3 text-left">PRODUIT</th>
+                                <th class="px-6 py-3 text-left">QUANTITE</th>
+                                <th class="px-6 py-3 text-left">PRIX</th>
+                                <th class="px-6 py-3 text-left">TOTAL</th>
+                                <th class="px-6 py-3 text-left">SERVEUR</th>
+                                <th class="px-6 py-3 text-left">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-light text-gray-600">
+                            @forelse ($ventes as $vente)
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="font-medium">{{ $vente->date_vente }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="mr-2">
+                                                <img class='w-8 h-8 rounded-full' src="{{ Storage::url($vente->produit->file) }}" alt="{{ __('') }}">
+                                            </div>
+                                            <span class="font-medium">{{ $vente->produit->designation }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="font-medium">{{ $vente->qte_vente }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="font-medium">{{ $vente->prix_vente }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="font-medium">{{ $vente->qte_vente * $vente->prix_vente }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="mr-2">
+                                                <div class="mr-2">
+                                                    @if (Auth::user()->file)
+                                                    <img class='w-8 h-8 rounded-full' src="{{ Storage::url($vente->user->file) }}" alt="{{ __('') }}">
+                                                    @else
+                                                    <img class='w-8 h-8 rounded-full' src="{{ asset('img/logoa.png') }}" alt="{{ __('') }}">
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <span class="font-medium">{{ $vente->user->name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="inline-block px-6 py-3 text-left">
+                                        <div class="flex justify-center item-center">
+                                            @if ($vente->validate)
+                                            <div class="flex justify-center px-2 py-1 mr-5 font-medium text-green-500 transform rounded-full w-14 hover:scale-110 ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                                                    <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
+                                                </svg>
+                                            </div>
+                                            @else
+                                            @if (Auth::user()->is_server)
+                                            <div class="flex justify-center px-2 py-1 mr-5 font-medium text-red-500 transform rounded-full w-14 hover:scale-110 ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation" viewBox="0 0 16 16">
+                                                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
+                                                </svg>
+                                            </div>
+                                            @endif
+                                            @if (Auth::user()->is_comptoire)
+                                            <div class="px-2 py-1 mr-5 text-white transform bg-green-500 rounded-full w-14 hover:scale-110 ">
+                                                <a wire:click="valider({{ $vente->id }})" href="#">valider</a>
+                                            </div>
+                                            @endif
+                                            @if (Auth::user()->is_admin)
+                                            <div class="px-2 py-1 mr-5 text-white transform bg-green-500 rounded-full w-14 hover:scale-110 ">
+                                                <a wire:click="valider({{ $vente->id }})" href="#">valider</a>
+                                            </div>
+                                            @endif
+                                            @endif
+                                            @if (Auth::user()->id == $vente->user_id and !$vente->validate)
+                                            <div class="w-5 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <svg wire:click="deleteVenteUnValide({{ $vente->id }})" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </div>
+                                            @endif
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                    <div class="text-lg text-red-500 ">
+                                        Aucune vente effectuée
+                                    </div>
+                            @endforelse
+
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
         </div>
     </div>

@@ -14,10 +14,18 @@ return new class extends Migration
         Schema::create('rapports', function (Blueprint $table) {
             $table->id();
             $table->integer('vente_jour');
+            $table->integer('vente_non_payer');
+            $table->integer('vente_payed')->default(0);
             $table->integer('depense_jour');
+            $table->integer('achat_jour');
             $table->integer('dette_jour');
+            $table->integer('dette_non_payer');
+            $table->integer('dette_payed')->default(0);
             $table->boolean('validate')->default(0);
             $table->foreignId('user_id')->constrained();
+            $table->boolean('deleted')->default(0);
+            $table->dateTime('date_deleted')->nullable();
+            $table->dateTime('date_rapport');
             $table->timestamps();
         });
     }

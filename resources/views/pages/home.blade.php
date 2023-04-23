@@ -1,37 +1,55 @@
 @extends('layouts.app')
 @section('main')
-<div class="container flex flex-col w-11/12 p-5 mx-auto mt-5 rounded-md sm:w-4/5">
+<div class="container flex flex-col w-11/12 p-5 mx-auto mt-5 bg-white rounded-md sm:w-4/5">
     <div>
-        <h1 class="mb-10 text-3xl text-center">Menu General</h1>
+        <div class="mb-5 text-5xl font-extrabold text-center">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500">
+                Gestion
+            </span>
+        </div>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 mb-8 gap-2 text-center ">
-        <div class=" bg-white shadow-md border rounded-md pb-5">
-            <img class="h-36 rounded" src="{{ asset('img/user.jpg') }}" alt="">
+    <div class="grid grid-cols-2 gap-2 mb-8 text-center sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 ">
+        @if (Auth::user()->is_admin)
+            <div class="pb-5 bg-white border rounded-md shadow-md ">
+            <img class="rounded h-36" src="{{ asset('img/user.jpg') }}" alt="">
             <a class="text-blue-600" href="{{ route('user.index') }}">Agents</a>
         </div>
-        <div class="bg-white border shadow-md rounded-md pb-5">
-            <img class="h-36 rounded" src="{{ asset('img/vente.webp') }}" alt="">
+         <div class="pb-5 bg-white border rounded-md shadow-md">
+            <img class="rounded h-36" src="{{ asset('img/bottles.webp') }}" alt="">
              <a class="text-blue-600 " href="{{ route('produit.index') }}">Produit</a>
          </div>
-        {{-- <div class="bg-white rounded-md pb-5 shadow-md border ">
-            <img class="h-36 rounded" src="{{ asset('img/stock.webp') }}" alt="">
-            <a class="text-blue-600 " href="">Stock</a>
-        </div> --}}
-        <div class="rounded-md pb-5 shadow-md border">
-           <img class="h-36 rounded" src="{{ asset('img/achat.jpg') }}" alt="">
-            <a class="text-blue-600 " href="">Achats</a>
+        <div class="pb-5 border rounded-md shadow-md">
+           <img class="object-cover w-full rounded h-36" src="{{ asset('img/achat.png') }}" alt="">
+            <a class="text-blue-600 " href="{{ route('achat.index') }}">Achats</a>
         </div>
-        <div class="bg-white border shadow-md rounded-md pb-5">
-           <img class="h-36 rounded" src="{{ asset('img/vente.png') }}" alt="">
+        <div class="pb-5 border rounded-md shadow-md">
+            <img class="rounded h-36" src="{{ asset('img/bg.jpg') }}" alt="">
+             <a class="text-blue-600 " href="{{ route('depense.index') }}">Depenses</a>
+         </div>
+        @endif
+        <div class="pb-5 bg-white border rounded-md shadow-md">
+           <img class="rounded h-36" src="{{ asset('img/vendre.webp') }}" alt="">
             <a class="text-blue-600 " href="{{ route('vente.index') }}">Ventes</a>
         </div>
-        <div class=" bg-white shadow-md border rounded-md pb-5">
-            <img class="h-36 rounded" src="{{ asset('img/dette.jpg') }}" alt="">
-            <a class="text-blue-600 " href="">Dettes</a>
+        <div class="pb-5 bg-white border rounded-md shadow-md ">
+            <img class="rounded h-36" src="{{ asset('img/dette.jpg') }}" alt="">
+            <a class="text-blue-600 " href="{{ route('dette.index') }}">Dettes</a>
         </div>
-        <div class=" bg-white shadow-md border rounded-md pb-5">
-            <img class="h-36 rounded" src="{{ asset('img/rapport.jpg') }}" alt="">
-            <a class="text-blue-600 " href="">Rapport</a>
+        <div class="pb-5 bg-white border rounded-md shadow-md ">
+            <img class="rounded h-36" src="{{ asset('img/rapport.jpg') }}" alt="">
+            <a class="text-blue-600 " href="{{ route('rapport') }}">Rapport</a>
+        </div>
+        <div class="pb-5 bg-white border rounded-md shadow-md ">
+            <img class="rounded h-36" src="{{ asset('img/caisse.jpg') }}" alt="">
+            <a class="text-blue-600 " href="{{ route('caisse') }}">Ma Caisse</a>
+        </div>
+        <div class="pb-5 bg-white border rounded-md shadow-md ">
+            @if (Auth::user()->file)
+            <img class="object-cover w-full rounded h-36 " src="{{ Storage::url(Auth::user()->file) }}" alt="">
+            @else
+            <img class="object-fill w-full rounded h-36 " src="{{ asset('img/logoa.png') }}" alt="">
+            @endif
+            <a class="text-blue-600 " href="{{ route('situation') }}">Ma situation</a>
         </div>
     </div>
 </div>

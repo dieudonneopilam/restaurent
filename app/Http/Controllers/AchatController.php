@@ -43,7 +43,8 @@ class AchatController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return \view('pages.editAchat',[
+        ]);
     }
 
     /**

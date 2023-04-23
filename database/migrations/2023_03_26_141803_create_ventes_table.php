@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->dateTime('date_vente');
             $table->boolean('validate')->default(0);
+            $table->boolean('deleted')->default(0);
+            $table->dateTime('date_deleted')->nullable();
             $table->timestamps();
         });
     }

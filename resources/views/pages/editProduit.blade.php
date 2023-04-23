@@ -2,7 +2,7 @@
 @section('main')
 <div class="bg-white rounded-2xl w-10/12 md:w-3/5 md:grid-cols-2 mx-auto grid h-3/4 shadow-lg">
     <div class=" hidden  h-96 w-full  relative md:flex items-center justify-center">
-        <img class="w-full h-full object-fill rounded-tl-2xl rounded-2xl" src="{{ asset('img/add.png') }}" alt="" srcset="">
+        <img class="w-full h-full object-fill rounded-tl-2xl rounded-2xl" src="{{ Storage::url($produit->file) }}" alt="" srcset="">
     </div>
     <div class="flex flex-col p-5 justify-around">
         <div class="flex justify-start items-center ">
@@ -13,16 +13,28 @@
             </a>
             <span class="text-xl">Modifier ce produit</span>
         </div>
-        <form class="flex flex-col items-center justify-between" action="" enctype="multipart/form-data">
+        <form class="flex flex-col items-center justify-between" method='POST' action="{{ route('produit.update',$produit->id) }}" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
             <div class="w-full m-3">
-                <input class="p-1 w-full border rounded h-10 pl-2" placeholder="nom produit" type="text">
+                <input name='designation' value="{{ $produit->designation }}" class="p-1 w-full border rounded h-10 pl-2" placeholder="nom produit" type="text">
+            </div>
+            @error('designation')
+            <div class='text-red-600 ml-3'>
+                {{ $message }}
+            </div>
+            @enderror
+            <div class="w-full m-3">
+                <input name='stock_alerte' value="{{ $produit->stock_alerte }}" class="p-1 w-full border rounded h-10 pl-2" placeholder="stock alerte" type="number">
             </div>
             <div class="w-full m-3">
-                <input class="p-1 w-full border rounded h-10 pl-2" placeholder="Quantité initiale" type="text">
+                <input name='file' class="w-full p-1 border rounded h-10 pl-2" type="file">
             </div>
-            <div class="w-full m-3">
-                <input class="w-full p-1 border rounded h-10 pl-2" type="file">
+            @error('stoc_alerte')
+            <div class='text-red-600 ml-3'>
+                {{ $message }}
             </div>
+            @enderror
             <div class="w-full m-3">
                 <button class="w-full rounded bg-blue-500 p-1 h-10 text-white font-bold" type="submit">Enregistrer</button>
             </div>

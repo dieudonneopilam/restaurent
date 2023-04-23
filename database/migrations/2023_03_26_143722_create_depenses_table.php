@@ -17,6 +17,10 @@ return new class extends Migration
             $table->integer('montant');
             $table->dateTime('date_depense');
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('produit_id')->nullable()->constrained();
+            $table->integer('qte_achat')->nullable();
+            $table->boolean('deleted')->default(0);
+            $table->dateTime('date_deleted')->nullable();
             $table->timestamps();
         });
     }

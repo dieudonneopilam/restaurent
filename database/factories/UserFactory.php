@@ -23,6 +23,7 @@ class UserFactory extends Factory
             'login' => fake()->userName(),
             'is_server' => 0,
             'is_admin' => 0,
+            'file' => 'oi',
             'is_comptoire' => 0,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

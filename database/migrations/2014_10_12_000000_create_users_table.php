@@ -22,6 +22,9 @@ return new class extends Migration
             $table->boolean('is_server')->default(0);
             $table->boolean('is_comptoire')->default(0);
             $table->boolean('is_admin')->default(0);
+            $table->boolean('deleted')->default(0);
+            $table->dateTime('date_deleted')->nullable();
+            $table->mediumText('file')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

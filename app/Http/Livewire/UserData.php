@@ -13,4 +13,11 @@ class UserData extends Component
             'users' => User::all()
         ]);
     }
+
+    public function delete($id){
+        $user = User::findOrFail($id)->update([
+            'deleted' => 1,
+            'date_deleted' => now()
+        ]);
+    }
 }

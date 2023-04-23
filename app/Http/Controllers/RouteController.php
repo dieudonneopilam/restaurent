@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class RouteController extends Controller
 {
@@ -22,5 +23,33 @@ class RouteController extends Controller
     }
     public function rapport(){
         return view('pages.rapport');
+    }
+    public function caisse(){
+        return view('pages.caisse');
+    }
+    public function situation(){
+        $chart_options = [
+            'chart_title' => 'Transactions by dates',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\vente',
+            'group_by_field' => 'date_vente',
+            'group_by_period' => 'hour',
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'prix_vente',
+            'chart_type' => 'line',
+        ];
+        
+        $chart_options = [
+            'chart_title' => 'vente produit par jour',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Vente',
+            'group_by_field' => 'date_vente',
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'qte_vente',
+            'group_by_period' => 'day',
+            'chart_type' => 'pie',
+                ];
+        $chart = new LaravelChart($chart_options);
+        return view('pages.ma-stituation',['chart' => $chart]);
     }
 }

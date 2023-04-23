@@ -11,6 +11,7 @@ class VenteController extends Controller
      */
     public function index()
     {
+        
         return view('pages.ventes');
     }
 

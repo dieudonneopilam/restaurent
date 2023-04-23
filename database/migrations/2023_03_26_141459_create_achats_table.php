@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('qte_achat');
             $table->dateTime('date_achat');
             $table->integer('prix_achat');
+            $table->boolean('deleted')->default(0);
+            $table->dateTime('date_deleted')->nullable();
             $table->timestamps();
         });
     }

@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Achat extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'produit_id',
+        'qte_achat',
+        'date_achat',
+        'prix_achat',
+        'deleted',
+        'date_deleted'
+    ];
+
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class);
+    }
 }

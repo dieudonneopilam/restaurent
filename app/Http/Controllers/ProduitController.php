@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produit;
 use Illuminate\Http\Request;
 
 class ProduitController extends Controller
@@ -43,7 +44,9 @@ class ProduitController extends Controller
      */
     public function edit(string $id)
     {
-        return view('pages.editProduit');
+        return view('pages.editProduit',[
+            'produit' => Produit::findOrFail($id)
+        ]);
     }
 
     /**
@@ -51,7 +54,26 @@ class ProduitController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+    
+        $request->validate([
+            'file' => ['required'],
+            'designation' => ['required'],
+            'stock_alerte' => ['required','numeric'],
+        ]);
+        $filename = time().'.'.$request->file->extension();
+
+        $path = $request->file->storeAs(
+            'avatars',
+            $filename,
+            'public'
+        );
+        Produit::findOrFail($id)->update([
+            'designation' => $request->designation,
+            'file' => $path,
+            'stock_alerte' => $request->stock_alerte
+        ]);
+
+        return \redirect()->route('produit.index');
     }
 
     /**
