@@ -30,14 +30,21 @@ class VenteDataTable extends Component
         'search' => ['required'],
         'nbpage' => ['required'],
     ];
+
+
+    public function mount(){
+        $this->search = date(now());
+        $this->search = date('Y-m-d');
+    }
+
     public function render()
     {
         if (Auth::user()->is_server) {
             $ventes = Vente::where('user_id','=',Auth::user()->id)->where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->OrderBy('date_vente','desc')->paginate($this->nbpage);
-            
+
             $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('user_id','=',Auth::user()->id)->get();
             $montant_valide = 0;
-            $montant_invalide = 0; 
+            $montant_invalide = 0;
             foreach($ventes_sum as $vente_sum){
 
                 if ($vente_sum->validate == 1) {
@@ -51,7 +58,7 @@ class VenteDataTable extends Component
 
             $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->get();
             $montant_valide = 0;
-            $montant_invalide = 0; 
+            $montant_invalide = 0;
             foreach($ventes_sum as $vente_sum){
 
                 if ($vente_sum->validate == 1) {
@@ -62,8 +69,8 @@ class VenteDataTable extends Component
             }
         }
 
-        
-        
+
+
         return view('livewire.vente-data-table',[
             'ventes' => $ventes,
             'produits' => Produit::all(),
@@ -87,7 +94,7 @@ class VenteDataTable extends Component
     }
     public function submit()
     {
-         $this->rules = [
+        $this->rules = [
             'prix_vente' => ['required', 'numeric'],
             'produit_id' => ['required', 'numeric'],
             'qte_vendu' => ['required', 'numeric'],
@@ -157,11 +164,11 @@ class VenteDataTable extends Component
                     'date_vente' => now(),
                 ]);
             }
-            
+
         }
 
         session()->flash('message','vente enregistrer avec success');
-        
+
         $this->opentable = true;
         $this->open = false;
         if ($this->me_dette) {

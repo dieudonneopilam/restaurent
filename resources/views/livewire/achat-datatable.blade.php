@@ -1,9 +1,16 @@
 <div class="overflow-x-auto">
-    <div class="min-w-screen  flex items-center p-2 justify-center bg-gray-100 font-sans overflow-hidden">
+    <div class="flex items-center justify-center p-2 overflow-hidden font-sans bg-gray-100 min-w-screen">
         <div class="w-full m-5 lg:w-5/6">
-            <div class="flex flex-wrap-reverse justify-between items-center">
-                
-                <input class="h-10 rounded border w-full sm:w-2/3 px-5" wire:model="search" placeholder="search vente">
+            <div class="flex flex-wrap-reverse items-center justify-between">
+
+                <input class="w-full h-10 px-5 border rounded sm:w-2/3" wire:model="search" placeholder="search vente" x-mask="9999-99-99">
+                <span class="flex items-center text-lg">{{ $montant.' Fc' }}
+                    <div class="flex justify-center text-green-500 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                            <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
+                        </svg>
+                    </div>
+                </span>
                 <div class="flex items-center justify-center ">
                     <a class="mr-5 text-blue-400" href="{{ route('home') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 96 960 960" width="30">
@@ -13,29 +20,29 @@
                     </a>
                 </div>
                 <a href="{{ route('achat.create') }}"
-                    class="flex items-center text-white my-2 bg-blue-500 rounded border h-10 px-2">Nouvel Achat</a>
+                    class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouvel Achat</a>
             </div>
-            <div class="bg-white shadow-md rounded my-1 overflow-x-auto m-1">
-                <table class="min-w-max w-full table-auto">
+            <div class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
+                <table class="w-full table-auto min-w-max">
                     <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6 text-left">DATE</th>
-                            <th class="py-3 px-6 text-left">PRODUIT</th>
-                            <th class="py-3 px-6 text-left">QUANTITE ACHETER</th>
-                            <th class="py-3 px-6 text-left">PRIX TOTAL ACHAT</th>
-                            <th class="py-3 px-6 text-left">ACTION</th>
+                        <tr class="text-sm leading-normal text-gray-600 uppercase bg-gray-200">
+                            <th class="px-6 py-3 text-left">DATE</th>
+                            <th class="px-6 py-3 text-left">PRODUIT</th>
+                            <th class="px-6 py-3 text-left">QUANTITE ACHETER</th>
+                            <th class="px-6 py-3 text-left">PRIX TOTAL ACHAT</th>
+                            <th class="px-6 py-3 text-left">ACTION</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        @foreach ($achats as $achat)
+                    <tbody class="text-sm font-light text-gray-600">
+                        @forelse ($achats as $achat)
                             @if (!$achat->deleted)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
                                             <span class="font-medium">{{ $achat->date_achat }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="mr-2">
                                                 <img class='w-8 h-8 rounded-full'
@@ -44,19 +51,19 @@
                                             <span class="font-medium">{{ $achat->produit->designation }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
                                             <span class="font-medium">{{ $achat->qte_achat }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
                                             <span class="font-medium">{{ $achat->prix_achat }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-3 px-6 text-left inline-block">
-                                        <div class="flex item-center justify-center">
-                                            <div class="w-4 mr-2 transform hover:text-purple-500  hover:scale-110">
+                                    <td class="inline-block px-6 py-3 text-left">
+                                        <div class="flex justify-center item-center">
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <a href='#' wire:click='delete({{ $achat->id }})'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
@@ -70,7 +77,15 @@
                                     </td>
                                 </tr>
                             @endif
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5" >
+                                    <div class="flex items-center text-red-500">
+                                        <span class="font-medium">aucun achat pour cette date</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

@@ -88,7 +88,7 @@
                 </div>
                 @if (session()->has('message'))
                 <div x-data="{ openadd: false, opentable: true }" class="w-full p-5 bg-green-400 rounded">
-                    
+
                     <div class=" alert-success">
                         {{ session('message') }}
                     </div>

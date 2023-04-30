@@ -3,15 +3,16 @@
 namespace App\Http\Livewire;
 
 use App\Models\Achat;
-use App\Models\Caisse;
-use App\Models\Depenses;
 use App\Models\Dette;
-use Livewire\Component;
+use App\Models\Vente;
+use App\Models\Caisse;
 use App\Models\Produit;
 use App\Models\Rapport;
-use App\Models\Vente;
-use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use App\Models\Depenses;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class RaportDataTable extends Component
 {
@@ -28,19 +29,26 @@ class RaportDataTable extends Component
 
     public $searchRapport;
     public $search = '';
-    public $nbpage = 5;
+    public $nbpage;
 
     public $rules = [
         'search' => ['required'],
         'nbpage' => ['required'],
+        'searchRapport' => ['required']
     ];
+
+    public function mount(){
+        $this->searchRapport = date(now());
+        $this->searchRapport = date('Y-m-d');
+        $this->nbpage = 5;
+    }
 
     public function render()
     {
-        
+
 
         $montant_vente_valide = 0;
-        $montant_vente_invalide = 0; 
+        $montant_vente_invalide = 0;
         $ventes = Vente::where('date_vente', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->get();
         foreach($ventes as $vente){
             if ($vente->validate == 1) {
@@ -54,7 +62,7 @@ class RaportDataTable extends Component
 
         $montant_dette_valide = 0;
         $montant_dette_invalide = 0;
-        
+
         foreach($dettes as $dette){
 
             if ($dette->payed == 1) {
@@ -67,14 +75,14 @@ class RaportDataTable extends Component
         $depense = Depenses::where('date_depense', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->get();
         $montant_depenses = $depense->sum('montant');
 
-       
+
 
         $achats = Achat::where('date_achat', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->get();
         $montant_achat = $achats->sum('prix_achat');
 
         $dettes = Dette::OrderBy('date_dette','desc')->where('date_dette', 'LIKE', "%$this->search%")->where('deleted','=',0)->paginate($this->nbpage);
 
-        
+
         $this->montant_vente_valides = $montant_vente_valide;
         $this->montant_vente_invalides = $montant_vente_invalide;
         $this->montant_dette_valides = $montant_dette_valide;
@@ -86,7 +94,7 @@ class RaportDataTable extends Component
         $this->reste_invalides = $this->montant_vente_invalides + $this->montant_dette_invalides;
 
         $is_report = Rapport::where("date_rapport", "LIKE", "%$this->searchRapport%")->get();
-
+        
         return view('livewire.raport-data-table',[
             'montant_vente_valide' => $montant_vente_valide,
             'montant_vente_invalide' => $montant_vente_invalide,
@@ -95,8 +103,9 @@ class RaportDataTable extends Component
             'montant_achat' => $montant_achat,
             'montant_depenses' => $montant_depenses,
             'dettes' => $dettes,
-            'rapports' => Rapport::all(),
-            'is_report' => $is_report
+            'rapports' => Rapport::paginate($this->nbpage),
+            'is_report' => $is_report,
+            'ventes' => $this->vente()
         ]);
     }
 
@@ -129,5 +138,9 @@ class RaportDataTable extends Component
             'date_rapport' => now(),
             'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
         ]);
+    }
+
+    public function vente(){
+        
     }
 }

@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 @endif
-                
+
                 <div class="flex justify-center">
                     <button wire:loading type="button" class="text-blue-500" disabled>
                         Processing...
@@ -67,7 +67,7 @@
                 </div>
                 @if (session()->has('message'))
                 <div x-data="{ openadd: false, opentable: true }" class="w-full p-5 bg-green-400 rounded">
-                    
+
                     <div class=" alert-success">
                         {{ session('message') }}
                     </div>
@@ -141,7 +141,6 @@
                                             @if ($depense->produit_id)
                                             <div class="mr-2">
                                                 <img class='w-8 h-8 rounded-full' src="{{ Storage::url($depense->produit->file) }}" alt="{{ __('') }}">
-                                                
                                             </div>
                                             <span class="block mx-1 text-lg font-semibold text-red-500">{{ $depense->qte_achat }}</span>
                                             @endif

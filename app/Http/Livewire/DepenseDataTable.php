@@ -32,6 +32,12 @@ class DepenseDataTable extends Component
         'search' => ['required'],
         'nbpage' => ['required'],
     ];
+
+    public function mount(){
+        $this->search = date(now());
+        $this->search = date('Y-m-d');
+    }
+
     public function render()
     {
         if (Auth::user()->is_comptoire or Auth::user()->is_admin) {

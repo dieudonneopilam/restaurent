@@ -31,14 +31,18 @@ class DetteDataTable extends Component
         'nbpage' => ['required'],
     ];
 
+    public function mount(){
+        $this->search = date(now());
+        $this->search = date('Y-m-d');
+    }
+
     public function render()
     {
         if (Auth::user()->is_server) {
             $dettes = Dette::where('user_id','=',Auth::user()->id)->where('date_dette', 'LIKE', "%$this->search%")->where('deleted','=',0)->OrderBy('date_dette','desc')->paginate($this->nbpage);
-            
             $dettes_sum = Dette::where('date_dette', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('user_id','=',Auth::user()->id)->get();
             $montant_valide = 0;
-            $montant_invalide = 0; 
+            $montant_invalide = 0;
             foreach($dettes_sum as $dette_sum){
 
                 if ($dette_sum->payed == 1) {
@@ -52,7 +56,7 @@ class DetteDataTable extends Component
 
             $dettes_sum = Dette::where('date_dette', 'LIKE', "%$this->search%")->where('deleted','=',0)->get();
             $montant_valide = 0;
-            $montant_invalide = 0; 
+            $montant_invalide = 0;
             foreach($dettes_sum as $dette_sum){
 
                 if ($dette_sum->payed == 1) {
