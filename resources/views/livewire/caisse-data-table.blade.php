@@ -18,13 +18,6 @@
                             d="M220 876h150V626h220v250h150V486L480 291 220 486v390Zm-60 60V456l320-240 320 240v480H530V686H430v250H160Zm320-353Z" />
                     </svg>
                 </a>
-                <a href="#" x-on:click="view2=true" class="flex items-center h-10 px-2 my-2 text-blue-500 border rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-building-add" viewBox="0 0 16 16">
-                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Z"/>
-                        <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1V1Z"/>
-                        <path d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z"/>
-                    </svg>
-                </a>
             </div>
             <div class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
                 {{-- {{ $rapports->links() }} --}}
@@ -40,7 +33,7 @@
                             <th class="px-6 py-3 text-left">ARGENT ENTRE</th>
                             <th class="px-6 py-3 text-left">ARGENT BANQUE</th>
                             <th class="px-6 py-3 text-left">ARGENT CHEF</th>
-                            <th class="px-6 py-3 text-left">ARGENT DEPENSER</th>
+                            {{-- <th class="px-6 py-3 text-left">ARGENT DEPENSER</th> --}}
                             <th class="px-6 py-3 text-left">ARGENT CAISSE</th>
                             <th class="px-6 py-3 text-left">ACTION</th>
                         </tr>
@@ -83,7 +76,7 @@
                                     </span>
                                 </div>
                             </td>
-                            <td class="px-6 py-3 text-left whitespace-nowrap">
+                            {{-- <td class="px-6 py-3 text-left whitespace-nowrap">
                                 <div class="flex items-center text-green-500">
                                     <span class="font-medium">{{ $caisse->depenser }}FC</span>
                                     <span class="">
@@ -92,7 +85,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                            </td>
+                            </td> --}}
                             <td class="px-6 py-3 text-left whitespace-nowrap">
                                 <div class="flex items-center text-green-500">
                                     <span class="font-medium">{{ $caisse->argent_entree - $caisse->argent_banque -$caisse->argent_chef - $caisse->depenser }}FC</span>

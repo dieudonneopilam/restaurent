@@ -22,7 +22,7 @@ class CaisseDataTable extends Component
     public $montant_dette_valides;
     public $montant_dette_invalides;
     public $montant_achats;
-    public $montant_depensess;
+    // public $montant_depensess;
     public $reste_valides;
     public $reste_invalides;
 

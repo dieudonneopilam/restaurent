@@ -93,8 +93,8 @@ class RaportDataTable extends Component
         $this->reste_valides = $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess;
         $this->reste_invalides = $this->montant_vente_invalides + $this->montant_dette_invalides;
 
-        $is_report = Rapport::where("date_rapport", "LIKE", "%$this->searchRapport%")->get();
-        
+        $is_report = Rapport::where("date_rapport", "LIKE", "%$this->searchRapport%")->first();
+
         return view('livewire.raport-data-table',[
             'montant_vente_valide' => $montant_vente_valide,
             'montant_vente_invalide' => $montant_vente_invalide,
@@ -138,9 +138,45 @@ class RaportDataTable extends Component
             'date_rapport' => now(),
             'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
         ]);
+
+        session()->flash('message','mise a jour rapport effectue avec success');
     }
 
+    public function updatereport($idReport){
+
+        $rapport = Rapport::findOrFail($idReport);
+
+        $rapport->update([
+            'vente_jour' => $this->montant_vente_valides,
+            'vente_non_payer' => $this->montant_vente_invalides,
+            'depense_jour' => $this->montant_depensess,
+            'achat_jour' => $this->montant_achats,
+            'dette_jour' => $this->montant_dette_valides,
+            'dette_non_payer' => $this->montant_dette_invalides,
+            'user_id' => Auth::user()->id,
+            'date_rapport' => $this->searchRapport
+        ]);
+
+        $caisse = Caisse::where('rapport_id','=',$rapport->id)->first();
+
+        if($caisse){
+            $caisse->update([
+                'rapport_id' => $rapport->id,
+                'date_rapport' => now(),
+                'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
+            ]);
+        }else{
+            Caisse::create([
+                'rapport_id' => $rapport->id,
+                'date_rapport' => now(),
+                'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
+            ]);
+        }
+
+        session()->flash('message','mise a jour rapport effectue avec success');
+
+    }
     public function vente(){
-        
+
     }
 }

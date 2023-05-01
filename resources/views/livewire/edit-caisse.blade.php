@@ -1,4 +1,4 @@
-<td colspan="7">
+<td class="my-2 border-b-2" colspan="7">
    <form class="flex items-center justify-around w-full" action="" wire:submit.prevent='save' >
     @csrf
         <div class="">
@@ -28,7 +28,7 @@
                 </div>
             @enderror
         </div>
-        <div>
+        {{-- <div>
             <label class="block font-semibold" for="">argent depenser</label>
             <input required wire:model.defer='caisse.depenser' class="w-32 h-8 p-1 border rounded" type="number">
             @error('caisse.depenser')
@@ -36,7 +36,7 @@
                     non null
                 </div>
             @enderror
-        </div>
+        </div> --}}
         <div>
             <label class="block font-semibold" for="">argent en caisse</label>
             <input disabled wire:model.defer='reste' class="h-8 p-1 border rounded" type="number">

@@ -1,18 +1,22 @@
 <?php
 
 
+use App\Models\Achat;
+use App\Models\Dette;
+use App\Models\Vente;
+use App\Models\Depenses;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AchatController;
-use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\DetteController;
+
 use App\Http\Controllers\graphController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\VenteController;
-
+use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\ProduitController;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 
 Route::middleware('auth')->group(function(){
@@ -36,9 +40,20 @@ Route::middleware('auth')->group(function(){
 });
 Route::get('file',function(){
 
-    $pdf = Pdf::loadView('rapport.home');
+    $orders = DB::table('ventes')
+    ->select(DB::raw('DISTINCT DATE_FORMAT(date_vente, "%Y-%m-%d") AS date_vente'))
+    ->get();
+    $pdf = Pdf::loadView('rapport.home',[
+        'orders' => $orders,
+        'ventes' => Vente::where('deleted','=',0)->get(),
+        'achats' => Achat::where('deleted','=',0)->get(),
+        'depenses' => Depenses::where('deleted','=',0)->get(),
+        'dettes' => Dette::all(),
+    ]);
+
     $pdf->setPaper('a4', 'landscape');
     return $pdf->download('rapport.pdf');
-
-    return view('rapport.home');
+    return view('rapport.home',[
+        'ventes' => Vente::all()
+    ]);
 });
