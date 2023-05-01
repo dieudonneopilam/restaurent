@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function(){
 Route::get('file',function(){
 
     $pdf = Pdf::loadView('rapport.home');
+    $pdf->setPaper('a4', 'landscape');
     return $pdf->download('rapport.pdf');
 
     return view('rapport.home');
