@@ -40,18 +40,18 @@ class DepenseDataTable extends Component
 
     public function render()
     {
-        if (Auth::user()->is_comptoire or Auth::user()->is_admin) {
+        if (Auth::user()->is_comptoire or Auth::user()->is_admin or Auth::user()->is_visit) {
             $depenses = Depenses::OrderBy('date_depense','desc')->where('deleted','=',0)->where('date_depense', 'LIKE', "%$this->search%")->paginate($this->nbpage);
 
             $depenses_sum = Depenses::where('date_depense', 'LIKE', "%$this->search%")->where('deleted','=',0)->get();
-           
+
             $montant_valide = 0;
             foreach($depenses_sum as $depense_sum){
-                $montant_valide = $montant_valide + $depense_sum->montant; 
+                $montant_valide = $montant_valide + $depense_sum->montant;
             }
-            
+
         }
-        
+
         return view('livewire.depense-data-table',[
             'depenses' => $depenses,
             'produits' => Produit::all(),
@@ -74,7 +74,7 @@ class DepenseDataTable extends Component
     public function submit()
     {
          $this->rules = [
-            
+
             'montant' => ['required', 'numeric'],
             'motif' => ['required'],
         ];
@@ -85,9 +85,9 @@ class DepenseDataTable extends Component
         }
 
         $this->validate();
-        
+
         if ($this->achat) {
-            
+
             Depenses::create([
                 'motif' => $this->motif,
                 'montant' => $this->montant,
@@ -111,20 +111,20 @@ class DepenseDataTable extends Component
         }
 
         session()->flash('message','depense enregistrer avec success');
-        
+
         $this->opentable = true;
         $this->open = false;
 
         $this->motif = '';
         $this->montant = '';
-        
+
     }
     public function forget(){
         session()->forget('message');
     }
     public function deleteVenteUnValide($id){
         $depense = Depenses::findOrFail($id);
-        
+
         $depense->update([
             'deleted' => 1,
             'date_deleted' => now()
@@ -132,7 +132,7 @@ class DepenseDataTable extends Component
 
         if ($depense->produit_id) {
             $produit = Produit::findOrFail($depense->produit->id);
-        
+
             $produit->update([
                 'qte' => $produit->qte - $depense->qte_achat,
             ]);

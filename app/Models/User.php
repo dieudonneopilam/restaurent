@@ -31,7 +31,8 @@ class User extends Authenticatable
         'is_admin',
         'file',
         'deleted',
-        'date_deleted'
+        'date_deleted',
+        'is_visit'
     ];
 
     /**

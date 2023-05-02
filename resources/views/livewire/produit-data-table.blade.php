@@ -12,8 +12,10 @@
                         </svg>
                     </a>
                 </div>
+                @if (Auth::user()->is_admin or Auth::user()->is_comptoire)
                 <a href="{{ route('produit.create') }}"
-                    class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouveau Produit</a>
+                class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouveau Produit</a>
+                @endif
             </div>
             <div class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
                 <table class="w-full table-auto min-w-max">
@@ -23,12 +25,14 @@
                             <th class="px-6 py-3 text-left">PRODUIT</th>
                             <th class="px-6 py-3 text-left">QUANTITE EN STOCK</th>
                             <th class="px-6 py-3 text-left">STOCK ALERTE</th>
+                            @if (Auth::user()->is_admin or Auth::user()->is_comptoire)
                             <th class="px-6 py-3 text-left">ACTION</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="text-sm font-light text-gray-600">
                         @foreach ($produits as $produit)
-                        
+
                             @if (!$produit->deleted)
                                 <tr class="border-b @if($produit->stock_alerte >= $produit->qte) bg-red-200 @endif border-gray-200 hover:bg-gray-100">
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
@@ -55,6 +59,7 @@
                                             <span class="font-medium">{{ $produit->stock_alerte }}</span>
                                         </div>
                                     </td>
+                                    @if (Auth::user()->is_admin or Auth::user()->is_comptoire)
                                     <td class="inline-block px-6 py-3 text-left">
                                         <div class="flex justify-center item-center">
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
@@ -79,6 +84,7 @@
                                             </div> --}}
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                             @endif
                         @endforeach

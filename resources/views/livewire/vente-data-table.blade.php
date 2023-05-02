@@ -1,4 +1,5 @@
 <div x-data="{ openadd: false, opentable: true }">
+    @if (!Auth::user()->is_visit)
     <div x-show="openadd" class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
         <div class="hidden w-full p-10 md:block h-96">
             <img class="object-fill w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ asset('img/vendre.webp') }}" alt="" srcset="">
@@ -102,6 +103,7 @@
             </form>
         </div>
     </div>
+    @endif
     <div x-show="opentable" class="overflow-x-auto">
         <div class="flex items-center justify-center p-2 overflow-hidden font-sans bg-white min-w-screen">
             <div class="w-full m-5 lg:w-5/6">
@@ -136,8 +138,10 @@
                                 d="M220 876h150V626h220v250h150V486L480 291 220 486v390Zm-60 60V456l320-240 320 240v480H530V686H430v250H160Zm320-353Z" />
                         </svg>
                     </a>
+                    @if (!Auth::user()->is_visit)
                     <a href="#" x-on:click="openadd=true,opentable=false" class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouvelle
                         vente</a>
+                    @endif
                 </div>
                 <div class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
                     {{ $ventes->links() }}
@@ -152,8 +156,8 @@
                                 <th class="px-6 py-3 text-left">DATE</th>
                                 <th class="px-6 py-3 text-left">PRODUIT</th>
                                 <th class="px-6 py-3 text-left">QUANTITE</th>
-                                <th class="px-6 py-3 text-left">PRIX</th>
-                                <th class="px-6 py-3 text-left">TOTAL</th>
+                                <th class="px-6 py-3 text-left">PU</th>
+                                <th class="px-6 py-3 text-left">PT</th>
                                 <th class="px-6 py-3 text-left">SERVEUR</th>
                                 <th class="px-6 py-3 text-left">ACTION</th>
                             </tr>
@@ -181,12 +185,12 @@
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <span class="font-medium">{{ $vente->prix_vente }}</span>
+                                            <span class="font-medium">{{ $vente->prix_vente }} FC</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <span class="font-medium">{{ $vente->qte_vente * $vente->prix_vente }}</span>
+                                            <span class="font-medium">{{ $vente->qte_vente * $vente->prix_vente }} FC</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">

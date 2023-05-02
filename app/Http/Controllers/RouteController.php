@@ -36,7 +36,8 @@ class RouteController extends Controller
             'group_by_period' => 'hour',
             'aggregate_function' => 'sum',
             'aggregate_field' => 'prix_vente',
-            'chart_type' => 'line',
+            'chart_type' => 'bar',
+            'colors' => ['#FF0000']
         ];
 
 

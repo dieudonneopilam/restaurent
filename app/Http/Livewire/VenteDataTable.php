@@ -53,7 +53,7 @@ class VenteDataTable extends Component
                     $montant_invalide = $montant_invalide + $vente_sum->prix_vente * $vente_sum->qte_vente;
                 }
             }
-        }elseif (Auth::user()->is_comptoire or Auth::user()->is_admin) {
+        }elseif (Auth::user()->is_comptoire or Auth::user()->is_admin or Auth::user()->is_visit) {
             $ventes = Vente::OrderBy('date_vente','desc')->where('deleted','=',0)->where('date_vente', 'LIKE', "%$this->search%")->paginate($this->nbpage);
 
             $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->get();

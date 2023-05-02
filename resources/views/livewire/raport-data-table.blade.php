@@ -1,4 +1,5 @@
 <div x-data="{ view2: false, view3:false, table:true }" class="overflow-x-auto">
+    @if (Auth::user()->is_admin)
     <div x-show="view2" class="flex items-center justify-center p-2 overflow-hidden font-sans bg-white min-w-screen">
         <div class="w-full m-5 lg:w-5/6">
             <div class="flex flex-wrap-reverse items-center justify-between mx-1">
@@ -192,6 +193,7 @@
             </div>
         </div>
     </div>
+    @endif
     @if (session()->has('message'))
         <div class="flex items-center justify-center w-11/12 h-12 mx-auto text-black bg-green-300 rounded md:w-10/12 ">
             {{ session('message') }}
@@ -212,6 +214,9 @@
                         <option value="100">100</option>
                     </select>
                 </div>
+                <div class="font-mono text-xl font-bold text-blue-500 underline">
+                    RAPPORT DE TOUS PAR DATTE
+                </div>
                 <div class="flex items-center">
                     <a href="{{ route('home') }}" x-on:click="openadd=true,opentable=false"
                     class="flex items-center h-10 px-2 mx-2 my-2 text-white border rounded">
@@ -220,18 +225,20 @@
                             d="M220 876h150V626h220v250h150V486L480 291 220 486v390Zm-60 60V456l320-240 320 240v480H530V686H430v250H160Zm320-353Z" />
                     </svg>
                 </a>
-                <a href="#" x-on:click="view2=true"
-                    class="flex items-center h-10 px-2 mx-2 my-2 text-blue-500 border rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                        class="bi bi-building-add" viewBox="0 0 16 16">
-                        <path
-                            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Z" />
-                        <path
-                            d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1V1Z" />
-                        <path
-                            d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z" />
-                    </svg>
-                </a>
+                @if (Auth::user()->is_admin)
+                        <a href="#" x-on:click="view2=true"
+                        class="flex items-center h-10 px-2 mx-2 my-2 text-blue-500 border rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                            class="bi bi-building-add" viewBox="0 0 16 16">
+                            <path
+                                d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Z" />
+                            <path
+                                d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1V1Z" />
+                            <path
+                                d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z" />
+                        </svg>
+                    </a>
+                @endif
                 </div>
             </div>
             <div x-show="table" class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
@@ -308,12 +315,12 @@
                                 </td>
                                 <td class="px-6 py-3 text-left whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <span class="font-medium">{{ $rapport->achat_jour }}</span>
+                                        <span class="font-medium">{{ $rapport->achat_jour }} FC</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-3 text-left whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <span class="font-medium">{{ $rapport->depense_jour }}</span>
+                                        <span class="font-medium">{{ $rapport->depense_jour }} FC</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-3 text-left whitespace-nowrap">

@@ -2,7 +2,7 @@
 @section('main')
 <div class="bg-white rounded-2xl w-10/12 md:w-3/5 md:grid-cols-2 mx-auto grid h-3/4 shadow-lg">
     <div class=" hidden md:block h-96 w-full p-10">
-        <img class="w-full h-full object-fill rounded rounded-bl-2xl" src="{{ Storage::url($user->file) }}" alt="" srcset="">
+        <img class="w-full h-full object-cover rounded rounded-bl-2xl" src="{{ Storage::url($user->file) }}" alt="" srcset="">
     </div>
     <div class="flex flex-col p-5 justify-around">
         <div class="flex justify-start items-center ">
@@ -16,7 +16,7 @@
         <form action='{{ route('user.update',$user->id) }}' method='POST' enctype="multipart/form-data"  class="flex flex-col items-start justify-between">
         @csrf
         @method('PUT')
-            
+
             <div class="w-full m-3">
                 <input name='nom'  placeholder='enter le nom' class="p-1 w-full border rounded h-10 pl-2" value='{{ $user->name }}'  type="text">
             </div>
@@ -43,7 +43,7 @@
             </div>
             <div class="w-full m-3">
                 <select name='fonction' fonction='fonction' value='{{ $user->is_admin }}' class="w-full h-10 p-1 pl-2 border rounded">
-                   
+
                     <option value="serveur">Serveur</option>
                     <option value="admin">admin</option>
                     <option value="comptoire">Comptoire</option>

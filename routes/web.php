@@ -20,7 +20,7 @@ use App\Http\Controllers\ProduitController;
 
 
 Route::middleware('auth')->group(function(){
-    Route::get('',[RouteController::class,'index'])->name('home')->middleware('auth');
+    Route::get('',[RouteController::class,'index'])->name('home');
     Route::get('/rapport',[RouteController::class,'rapport'])->name('rapport')->middleware('auth');
     Route::get('/ma-situation',[RouteController::class,'situation'])->name('situation')->middleware('auth');
     Route::get('/caisse',[RouteController::class,'caisse'])->name('caisse')->middleware('auth');
@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('produit',ProduitController::class);
     Route::resource('vente',VenteController::class);
     Route::resource('dette',DetteController::class);
-    Route::resource('user',UserController::class)->middleware('auth');
+    Route::resource('user',UserController::class)->middleware('is_admin','auth');
     Route::resource('achat',AchatController::class)->middleware('auth');
     Route::resource('depense',DepenseController::class);
 });

@@ -1,4 +1,5 @@
 <div x-data="{ openadd: false, opentable: true }">
+    @if (Auth::user()->is_admin or Auth::user()->is_comptoire)
     <div x-show="openadd" class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
         <div class="hidden w-full p-10 md:block h-96">
             <img class="object-fill w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ asset('img/vendre.webp') }}" alt="" srcset="">
@@ -81,6 +82,7 @@
             </form>
         </div>
     </div>
+    @endif
     <div x-show="opentable" class="overflow-x-auto">
         <div class="flex items-center justify-center p-2 overflow-hidden font-sans bg-white min-w-screen">
             <div class="w-full m-5 lg:w-5/6">
@@ -108,8 +110,10 @@
                                 d="M220 876h150V626h220v250h150V486L480 291 220 486v390Zm-60 60V456l320-240 320 240v480H530V686H430v250H160Zm320-353Z" />
                         </svg>
                     </a>
-                    <a href="#" x-on:click="openadd=true,opentable=false" class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouvelle
-                        vente</a>
+                    @if (Auth::user()->is_admin or Auth::user()->is_comptoire)
+                        <a href="#" x-on:click="openadd=true,opentable=false" class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouvelle
+                        depense</a>
+                    @endif
                 </div>
                 <div class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
                     {{ $depenses->links() }}

@@ -3,9 +3,9 @@
     @if (!$user->deleted)
         <div class="relative flex p-2 mt-3 bg-white shadow-md rounded-xl">
         @if (Auth::user()->file)
-        <img class="w-12 h-12 mr-5 rounded-full" src="{{ Storage::url($user->file) }}" alt="">
+        <img class="object-cover w-12 h-12 mr-5 rounded-full" src="{{ Storage::url($user->file) }}" alt="">
         @else
-        <img class="w-12 h-12 mr-5 rounded-full" src="{{ asset('img/logoa.png') }}" alt="">
+        <img class="object-cover w-12 h-12 mr-5 rounded-full" src="{{ asset('img/logoa.png') }}" alt="">
         @endif
         <div>
             <h1>{{ $user->name }} {{ $user->lastname }}</h1>

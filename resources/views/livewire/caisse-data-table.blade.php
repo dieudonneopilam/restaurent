@@ -20,7 +20,7 @@
                 </a>
             </div>
             <div class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
-                {{-- {{ $rapports->links() }} --}}
+                {{ $caisses->links() }}
                 <!-- <div class="flex justify-center">
                     <button wire:loading type="button" class="text-blue-500" disabled>
                         Processing...
@@ -35,7 +35,9 @@
                             <th class="px-6 py-3 text-left">ARGENT CHEF</th>
                             {{-- <th class="px-6 py-3 text-left">ARGENT DEPENSER</th> --}}
                             <th class="px-6 py-3 text-left">ARGENT CAISSE</th>
+                            @if (Auth::user()->is_admin)
                             <th class="px-6 py-3 text-left">ACTION</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="text-sm font-light text-gray-600">
@@ -96,6 +98,7 @@
                                     </span>
                                 </div>
                             </td>
+                            @if (Auth::user()->is_admin)
                             <td class="px-6 py-3 text-left whitespace-nowrap">
                                 <div class="w-5 mr-2 transform hover:text-purple-500 hover:scale-110">
                                     <a href="#" wire:click='startEdit({{ $caisse->id }})'>
@@ -108,6 +111,7 @@
                                     </a>
                                 </div>
                             </td>
+                            @endif
                         </tr>
                         @if ($idEdit == $caisse->id)
                             <tr>

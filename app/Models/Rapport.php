@@ -26,8 +26,8 @@ class Rapport extends Model
         ''
     ];
 
-    public function caisses()
+    public function caisse()
     {
-        return $this->hasMany(Caisse::class);
+        return $this->hasOne(Caisse::class);
     }
 }

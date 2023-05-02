@@ -103,7 +103,7 @@ class RaportDataTable extends Component
             'montant_achat' => $montant_achat,
             'montant_depenses' => $montant_depenses,
             'dettes' => $dettes,
-            'rapports' => Rapport::paginate($this->nbpage),
+            'rapports' => Rapport::where('date_rapport','LIKE','%'.$this->search.'%')->orderBy('date_rapport','desc')->paginate($this->nbpage),
             'is_report' => $is_report,
             'ventes' => $this->vente()
         ]);
@@ -135,7 +135,7 @@ class RaportDataTable extends Component
 
         Caisse::create([
             'rapport_id' => $rapport->id,
-            'date_rapport' => now(),
+            'date_rapport' => $rapport->date_rapport,
             'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
         ]);
 
@@ -162,13 +162,13 @@ class RaportDataTable extends Component
         if($caisse){
             $caisse->update([
                 'rapport_id' => $rapport->id,
-                'date_rapport' => now(),
+                'date_rapport' => $rapport->date_rapport,
                 'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
             ]);
         }else{
             Caisse::create([
                 'rapport_id' => $rapport->id,
-                'date_rapport' => now(),
+                'date_rapport' => $rapport->date_rapport,
                 'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
             ]);
         }

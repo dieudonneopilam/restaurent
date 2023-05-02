@@ -1,9 +1,9 @@
 <div class="overflow-x-auto">
     <div class="flex items-center justify-center p-2 overflow-hidden font-sans bg-white min-w-screen">
         <div class="w-full m-5 lg:w-5/6">
-            <div class="flex flex-wrap-reverse items-center mx-1 justify-between">
+            <div class="flex flex-wrap-reverse items-center justify-between mx-1">
                 <div class="w-full h-10 sm:w-2/3">
-                    <input x-mask="9999-99-99" class="sm:w-1/2 w-4/5 h-full px-5 border rounded" wire:model.debounce.1000ms="search" placeholder="AAAA/MM/JR">
+                    <input x-mask="9999-99-99" class="w-4/5 h-full px-5 border rounded sm:w-1/2" wire:model.debounce.1000ms="search" placeholder="AAAA/MM/JR">
                     <select wire:model='nbpage' class="w-1/6 h-full px-1 border rounded" name="" id="">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -46,8 +46,8 @@
                             <th class="px-6 py-3 text-left">DATE</th>
                             <th class="px-6 py-3 text-left">PRODUIT</th>
                             <th class="px-6 py-3 text-left">QUANTITE</th>
-                            <th class="px-6 py-3 text-left">PRIX</th>
-                            <th class="px-6 py-3 text-left">TOTAL</th>
+                            <th class="px-6 py-3 text-left">PU</th>
+                            <th class="px-6 py-3 text-left">PT</th>
                             <th class="px-6 py-3 text-left">SERVEUR</th>
                             <th class="px-6 py-3 text-left">PERSON</th>
                             <th class="px-6 py-3 text-left">ACTION</th>
@@ -76,12 +76,12 @@
                             </td>
                             <td class="px-6 py-3 text-left whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <span class="font-medium">{{ $dette->prix_vente }}</span>
+                                    <span class="font-medium">{{ $dette->prix_vente }} FC</span>
                                 </div>
                             </td>
                             <td class="px-6 py-3 text-left whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <span class="font-medium">{{ $dette->qte_dette * $dette->prix_vente }}</span>
+                                    <span class="font-medium">{{ $dette->qte_dette * $dette->prix_vente }} FC</span>
                                 </div>
                             </td>
                             <td class="px-6 py-3 text-left whitespace-nowrap">
@@ -107,7 +107,7 @@
                                             <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
                                         </svg>
                                     </div>
-                                    <div class="px-2 py-1 mr-5 flex font-medium justify-center items-center text-green-500 transform rounded-full w-14 hover:scale-110 ">
+                                    <div class="flex items-center justify-center px-2 py-1 mr-5 font-medium text-green-500 transform rounded-full w-14 hover:scale-110 ">
                                         <span>payé</span>
                                     </div>
                                     @else
@@ -124,7 +124,7 @@
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
                                         </svg>
                                     </div>
-                                    <div class="px-2 py-1 mr-5 flex justify-center items-center text-white transform bg-red-300 rounded-full w-14 hover:scale-110 ">
+                                    <div class="flex items-center justify-center px-2 py-1 mr-5 text-white transform bg-red-300 rounded-full w-14 hover:scale-110 ">
                                         <a wire:click="valider({{ $dette->id }})" href="#">payer</a>
                                     </div>
                                     @endif

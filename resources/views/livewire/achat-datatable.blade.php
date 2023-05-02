@@ -19,8 +19,11 @@
                         </svg>
                     </a>
                 </div>
-                <a href="{{ route('achat.create') }}"
-                    class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouvel Achat</a>
+                @if (!Auth::user()->is_visit)
+                    <a href="{{ route('achat.create') }}"
+                        class="flex items-center h-10 px-2 my-2 text-white bg-blue-500 border rounded">Nouvel Achat
+                    </a>
+                @endif
             </div>
             <div class="m-1 my-1 overflow-x-auto bg-white rounded shadow-md">
                 <table class="w-full table-auto min-w-max">
@@ -58,10 +61,11 @@
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <span class="font-medium">{{ $achat->prix_achat }}</span>
+                                            <span class="font-medium">{{ $achat->prix_achat }} FC</span>
                                         </div>
                                     </td>
                                     <td class="inline-block px-6 py-3 text-left">
+                                        @if (Auth::user()->is_admin or Auth::user()->is_comptoire)
                                         <div class="flex justify-center item-center">
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <a href='#' wire:click='delete({{ $achat->id }})'>
@@ -74,6 +78,13 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        @else
+                                            <div class="flex justify-center item-center">
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    ...
+                                                </div>
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endif

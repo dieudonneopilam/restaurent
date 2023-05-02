@@ -1,29 +1,29 @@
-<div class="bg-white rounded-2xl w-10/12 md:w-3/5 md:grid-cols-2 mx-auto grid h-3/4 shadow-lg">
-    <div class=" hidden md:block h-96 w-full p-10">
-        <img class="w-full h-full object-fill rounded-tl-2xl rounded-bl-2xl" src="{{ Storage::url($user->file) }}" alt="" srcset="">
+<div class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
+    <div class="hidden w-full p-10  md:block h-96">
+        <img class="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ Storage::url($user->file) }}" alt="" srcset="">
     </div>
-    <div class="flex flex-col p-5 justify-around">
+    <div class="flex flex-col justify-around p-5">
         <form wire:submit.prevent='submit' class="flex flex-col items-start justify-between">
             <div class="w-full m-3">
-                <input wire:model='nom'  placeholder='enter le nom' class="p-1 w-full border rounded h-10 pl-2" value='{{ $user->name }}'  type="text">
+                <input wire:model='nom'  placeholder='enter le nom' class="w-full h-10 p-1 pl-2 border rounded" value='{{ $user->name }}'  type="text">
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('nom')
                     {{ $message }}
                 @enderror
             </div>
             <div class="w-full m-3">
-                <input wire:model='prenom' value='{{ $user->lastname }}' placeholder='enter le prenom' class="p-1 w-full border rounded h-10 pl-2"  type="text">
+                <input wire:model='prenom' value='{{ $user->lastname }}' placeholder='enter le prenom' class="w-full h-10 p-1 pl-2 border rounded"  type="text">
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('prenom')
                     {{ $message }}
                 @enderror
             </div>
             <div class="w-full m-3">
-                <input wire:model='mail' value='{{ $user->email }}' placeholder='enter le mail' class="p-1 w-full border rounded h-10 pl-2" type="email">
+                <input wire:model='mail' value='{{ $user->email }}' placeholder='enter le mail' class="w-full h-10 p-1 pl-2 border rounded" type="email">
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('mail')
                     {{ $message }}
                 @enderror
@@ -36,37 +36,37 @@
                     <option value="comptoire">Comptoire</option>
                 </select>
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('fonction')
                     {{ $message }}
                 @enderror
             </div>
             <div class="w-full m-3">
-                <input wire:model='password' value='{{ $user->password }}' placeholder='enter le password' class="p-1 w-full border rounded h-10 pl-2"  type="password">
+                <input wire:model='password' value='{{ $user->password }}' placeholder='enter le password' class="w-full h-10 p-1 pl-2 border rounded"  type="password">
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('password')
                     {{ $message }}
                 @enderror
             </div>
             <div class="w-full m-3">
-                <input wire:model='confirm' value='{{ $user->password }}' placeholder='confirm votre password' class="p-1 w-full border rounded h-10 pl-2" type="password">
+                <input wire:model='confirm' value='{{ $user->password }}' placeholder='confirm votre password' class="w-full h-10 p-1 pl-2 border rounded" type="password">
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('confirm')
                     {{ $message }}
                 @enderror
             </div>
             <div class="w-full m-3">
-                <input class="w-full p-1 border rounded h-10 pl-2" value='{{ $user->file }}' wire:model='file'>
+                <input class="w-full h-10 p-1 pl-2 border rounded" value='{{ $user->file }}' wire:model='file'>
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('file')
                     {{ $message }}
                 @enderror
             </div>
             <div class="w-full m-3">
-                <button type='submit' class="w-full rounded bg-blue-500 p-1 h-10 text-white font-bold">Modifier</button>
+                <button type='submit' class="w-full h-10 p-1 font-bold text-white bg-blue-500 rounded">Modifier</button>
             </div>
         </form>
     </div>

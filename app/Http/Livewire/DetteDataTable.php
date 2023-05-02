@@ -51,7 +51,7 @@ class DetteDataTable extends Component
                     $montant_invalide = $montant_invalide + $dette_sum->prix_vente * $dette_sum->qte_dette;
                 }
             }
-        }elseif (Auth::user()->is_comptoire or Auth::user()->is_admin) {
+        }elseif (Auth::user()->is_comptoire or Auth::user()->is_admin or Auth::user()->is_visit) {
             $dettes = Dette::OrderBy('date_dette','desc')->where('date_dette', 'LIKE', "%$this->search%")->where('deleted','=',0)->paginate($this->nbpage);
 
             $dettes_sum = Dette::where('date_dette', 'LIKE', "%$this->search%")->where('deleted','=',0)->get();
