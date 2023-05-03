@@ -27,9 +27,12 @@ class RaportDataTable extends Component
     public $reste_valides;
     public $reste_invalides;
 
+    public $dateSearch;
+
     public $searchRapport;
     public $search = '';
     public $nbpage;
+
 
     public $rules = [
         'search' => ['required'],
@@ -95,6 +98,8 @@ class RaportDataTable extends Component
 
         $is_report = Rapport::where("date_rapport", "LIKE", "%$this->searchRapport%")->first();
 
+        $this->updateSearch();
+
         return view('livewire.raport-data-table',[
             'montant_vente_valide' => $montant_vente_valide,
             'montant_vente_invalide' => $montant_vente_invalide,
@@ -119,6 +124,10 @@ class RaportDataTable extends Component
         $produit->update([
             'qte' => $produit->qte + $dette->qte_dette
         ]);
+    }
+
+    public function updateSearch(){
+        $this->dateSearch = $this->search;
     }
 
     public function valider($id){

@@ -10,26 +10,27 @@ class MaSituation extends Component
     public function render()
     {
         $settings1 = [
-            'chart_title' => 'Achat par jour FC',
+            'chart_title' => 'vente par jour',
             'report_type' => 'group_by_date',
-            'model' => 'App\Models\Achat',
-            'group_by_field' => 'date_achat',
+            'model' => 'App\Models\Rapport',
+            'group_by_field' => 'date_rapport',
             'aggregate_function' => 'sum',
-            'aggregate_field' => 'prix_achat',
+            'aggregate_field' => 'vente_jour',
             'group_by_period' => 'day',
             'chart_type' => 'line',
-            'chart_color' => '255, 99, 132, 0.2',
+            'chart_color' => '255, 99, 132, 1',
             'continuous_time'       => true,
         ];
         $settings2 = [
-            'chart_title' => 'vente produit par jour',
+            'chart_title' => 'depense par jour',
             'report_type' => 'group_by_date',
-            'model' => 'App\Models\Vente',
-            'group_by_field' => 'date_vente',
+            'model' => 'App\Models\Rapport',
+            'group_by_field' => 'date_rapport',
             'aggregate_function' => 'sum',
-            'aggregate_field' => 'prix_vente',
+            'aggregate_field' => 'depense_jour',
             'group_by_period' => 'day',
             'chart_type' => 'line',
+            'chart_color' => '0, 0, 255, 1',
             'continuous_time'       => true,
         ];
 
@@ -44,7 +45,6 @@ class MaSituation extends Component
             'aggregate_field' => 'qte_vente',
             'group_by_period' => 'day',
             'chart_type' => 'line',
-            'colors' => ['#FF0000']
                 ];
                         $charts = new LaravelChart($chart_options);
         return view('livewire.ma-situation',['charts' => $chart1]);

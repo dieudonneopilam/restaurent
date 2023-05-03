@@ -17,6 +17,8 @@ use App\Http\Controllers\RouteController;
 use App\Http\Controllers\VenteController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\RapportController;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 
 Route::middleware('auth')->group(function(){
@@ -37,8 +39,39 @@ Route::middleware('auth')->group(function(){
     Route::resource('user',UserController::class)->middleware('is_admin','auth');
     Route::resource('achat',AchatController::class)->middleware('auth');
     Route::resource('depense',DepenseController::class);
+
+    Route::get('rapport-annuel/{annee}',[RapportController::class,'rapportRapportAnnee'])->name('rapport-annuel');
+    Route::get('rapport-mensuel/{mois}',[RapportController::class,'rapportRapportMois'])->name('rapport-mensuel');
+    Route::get('rapport-journalier/{jour}',[RapportController::class,'rapportRapportJour'])->name('rapport-journalier');
+
 });
 Route::get('file',function(){
+    $settings1 = [
+        'chart_title' => 'vente par jour',
+        'report_type' => 'group_by_date',
+        'model' => 'App\Models\Rapport',
+        'group_by_field' => 'date_rapport',
+        'aggregate_function' => 'sum',
+        'aggregate_field' => 'vente_jour',
+        'group_by_period' => 'day',
+        'chart_type' => 'line',
+        'chart_color' => '255, 99, 132, 1',
+        'continuous_time'       => true,
+    ];
+    $settings2 = [
+        'chart_title' => 'depense par jour',
+        'report_type' => 'group_by_date',
+        'model' => 'App\Models\Rapport',
+        'group_by_field' => 'date_rapport',
+        'aggregate_function' => 'sum',
+        'aggregate_field' => 'depense_jour',
+        'group_by_period' => 'day',
+        'chart_type' => 'line',
+        'chart_color' => '0, 0, 255, 1',
+        'continuous_time'       => true,
+    ];
+
+    $chart1 = new LaravelChart($settings1, $settings2);
 
     $orders = DB::table('ventes')
     ->select(DB::raw('DISTINCT DATE_FORMAT(date_vente, "%Y-%m-%d") AS date_vente'))
@@ -49,6 +82,7 @@ Route::get('file',function(){
         'achats' => Achat::where('deleted','=',0)->get(),
         'depenses' => Depenses::where('deleted','=',0)->get(),
         'dettes' => Dette::all(),
+        'charts' => $chart1
     ]);
 
     $pdf->setPaper('a4', 'landscape');
