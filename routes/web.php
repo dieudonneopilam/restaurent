@@ -24,6 +24,7 @@ use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 Route::middleware('auth')->group(function(){
     Route::get('',[RouteController::class,'index'])->name('home');
     Route::get('/rapport',[RouteController::class,'rapport'])->name('rapport')->middleware('auth');
+    Route::get('/pertes',[RouteController::class,'perte'])->name('perte')->middleware('auth');
     Route::get('/ma-situation',[RouteController::class,'situation'])->name('situation')->middleware('auth');
     Route::get('/caisse',[RouteController::class,'caisse'])->name('caisse')->middleware('auth');
     Route::get('/login',[AuthController::class, 'login'])->name('login')->withoutMiddleware('auth');

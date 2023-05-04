@@ -50,7 +50,7 @@
         @endif
         <div class="pb-5 border rounded-md shadow-md">
             <img class="rounded h-36" src="{{ asset('img/perte.jpg') }}" alt="">
-             <a class="text-blue-600 " href="{{ route('depense.index') }}">pertes</a>
+             <a class="text-blue-600 " href="{{ route('perte') }}">pertes</a>
          </div>
         <div class="pb-5 bg-white border rounded-md shadow-md ">
             @if (Auth::user()->file)

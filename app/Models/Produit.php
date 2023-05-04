@@ -2,19 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Vente;
 use App\Models\Dette;
+use App\Models\Perte;
+use App\Models\Vente;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Produit extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'file', 'designation', 'qte', 'deleted','date_deleted', 'stock_alerte'
     ];
-    
+
     public function achats()
     {
         return $this->hasMany(Achat::class);
@@ -31,6 +32,10 @@ class Produit extends Model
     public function depenses()
     {
         return $this->hasMany(Depenses::class);
+    }
+    public function pertes()
+    {
+        return $this->hasMany(Perte::class);
     }
 
 }

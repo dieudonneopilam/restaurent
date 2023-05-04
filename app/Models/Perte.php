@@ -2,10 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Produit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Perte extends Model
 {
+    protected $fillable = [
+        'produit_id',
+        'date_perte',
+        'qte_perdu',
+        'prix_perdu',
+        'person_perte'
+    ];
     use HasFactory;
+
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class);
+    }
 }

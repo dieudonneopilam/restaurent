@@ -42,113 +42,28 @@
     <th>depenses</th>
     <th>argent recu</th>
   </tr>
-  @forelse ($orders as $order)
+  @forelse ($rapports as $rapport)
   <tr>
     <td>
-        <div>{{ $order->date_vente }}</div>
+        <div>{{ date('Y-m-d', strtotime($rapport->date_rapport)) }}</div>
     </td>
     <td>
-        @php
-            $vente_valide = 0;
-            $vente_invalide = 0;
-        @endphp
-       @forelse ($ventes as $vente)
-            @if ( date('Y-m-d', strtotime($order->date_vente)) == date('Y-m-d', strtotime($vente->date_vente)))
-                @if ($vente->validate)
-                    @php
-                        $vente_valide = $vente_valide + $vente->prix_vente * $vente->qte_vente;
-                    @endphp
-                @else
-                    @php
-                        $vente_invalide = $vente_valide + $vente->prix_vente * $vente->qte_vente;
-                    @endphp
-                @endif
-            @endif
-       @empty
-
-        @endforelse
-        @if ($vente_valide == 0)
-            <div>
-                -
-            </div>
-        @else
-            <div style="color: green">{{ $vente_valide }} FC</div>
-        @endif
-        @if ($vente_invalide == 0)
-            <div>
-                -
-            </div>
-        @else
-            <div style="color: red">{{ $vente_invalide }} FC !!</div>
-        @endif
+        <div style="color: green">{{ $rapport->vente_jour }} FC</div>
+        <div style="color: red">{{ $rapport->vente_non_payer }} FC !!</div>
     </td>
     <td>
-        @php
-            $dette_payed = 0;
-            $dette_nonpayed = 0;
-        @endphp
-       @forelse ($dettes as $dette)
-            @if ( date('Y-m-d', strtotime($order->date_vente)) == date('Y-m-d', strtotime($dette->date_dette)))
-                @if ($dette->payed)
-                    @php
-                        $dette_payed = $dette_payed + $dette->prix_vente * $dette->qte_dette;
-                    @endphp
-                @else
-                    @php
-                        $dette_nonpayed = $dette_nonpayed + $dette->prix_vente * $dette->qte_dette;
-                    @endphp
-                @endif
-            @endif
-       @empty
-
-        @endforelse
-        @if ($dette_payed == 0)
-            <div>
-                -
-            </div>
-        @else
-            <div style="color: green">{{ $dette_payed }} FC</div>
-        @endif
-        @if ($dette_nonpayed == 0)
-            <div>
-                -
-            </div>
-        @else
-            <div style="color: red">{{ $dette_nonpayed }} FC !!</div>
-        @endif
+        <div style="color: green">{{ $rapport->dette_payed }} FC</div>
+        <div style="color: red">{{ $rapport->dette_non_payer }} FC !!</div>
     </td>
     <td>
-        @php
-            $sum_achats = 0;
-        @endphp
-       @forelse ($achats as $achat)
-            @if ( date('Y-m-d', strtotime($order->date_vente)) == date('Y-m-d', strtotime($achat->date_achat)))
-                @php
-                    $sum_achats = $sum_achats + $achat->prix_achat;
-                @endphp
-            @endif
-       @empty
-
-        @endforelse
-        <div style="color: green">{{ $sum_achats }} FC</div>
+        <div style="color: green">{{ $rapport->achat_jour }} FC</div>
     </td>
     <td>
-        @php
-            $sum_depenses = 0;
-        @endphp
-       @forelse ($depenses as $depense)
-            @if ( date('Y-m-d', strtotime($order->date_vente)) == date('Y-m-d', strtotime($depense->date_depense)))
-                @php
-                    $sum_depenses = $sum_depenses + $achat->prix_achat;
-                @endphp
-            @endif
-       @empty
-        @endforelse
-        <div style="color: green">{{ $sum_depenses }} FC</div>
+        <div style="color: green">{{ $rapport->depense_jour }} FC</div>
     </td>
     <td>
-        <div style="color: green">{{ $vente_valide + $dette_payed - $sum_achats - $sum_depenses }} FC</div>
-        <div style="color: red">{{ $vente_invalide + $dette_nonpayed }} FC</div>
+        <div style="color: green">{{ $rapport->vente_jour + $rapport->dette_payed - $rapport->achat_jour - $rapport->depense_jour }} FC</div>
+        <div style="color: red">{{ $rapport->vente_non_payer + $rapport->dette_non_payer }} FC</div>
     </td>
   </tr>
   @empty

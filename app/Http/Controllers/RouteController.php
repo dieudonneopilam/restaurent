@@ -27,6 +27,9 @@ class RouteController extends Controller
     public function caisse(){
         return view('pages.caisse');
     }
+    public function perte(){
+        return view('pages.perte');
+    }
     public function situation(){
         $chart_options = [
             'chart_title' => 'Transactions by dates',

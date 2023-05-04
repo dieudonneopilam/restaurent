@@ -3,7 +3,7 @@
         <img class="object-fill w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ asset('img/achat.png') }}" alt="" srcset="">
     </div>
     <div class="flex flex-col justify-around p-5">
-    <div class="flex justify-start items-center ">
+    <div class="flex items-center justify-start ">
             <a class="mr-5 text-blue-400" href="{{ route('achat.index') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-reply-fill" viewBox="0 0 16 16">
                     <path d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"/>
@@ -24,7 +24,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('produit_id')
                     {{ $message }}
                 @enderror
@@ -33,7 +33,7 @@
                 <label for="">Quantite achete en bouteille</label>
                 <input wire:model="qte_achat" class="w-full h-10 p-1 pl-2 border rounded" placeholder="" type="number">
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('qte_achat')
                     {{ $message }}
                 @enderror
@@ -42,7 +42,7 @@
                 <label for="">Prix Total</label>
                 <input wire:model='prix_achat' class="w-full h-10 p-1 pl-2 border rounded" type="number">
             </div>
-            <div class='text-red-600 ml-3'>
+            <div class='ml-3 text-red-600'>
                 @error('prix_achat')
                     {{ $message }}
                 @enderror

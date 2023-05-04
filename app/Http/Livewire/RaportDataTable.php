@@ -43,13 +43,14 @@ class RaportDataTable extends Component
     public function mount(){
         $this->searchRapport = date(now());
         $this->searchRapport = date('Y-m-d');
+        $this->search = '';
         $this->nbpage = 5;
     }
-
+    public function updatingSearch($value){
+        $this->dateSearch = $value;
+    }
     public function render()
     {
-
-
         $montant_vente_valide = 0;
         $montant_vente_invalide = 0;
         $ventes = Vente::where('date_vente', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->get();
@@ -98,7 +99,6 @@ class RaportDataTable extends Component
 
         $is_report = Rapport::where("date_rapport", "LIKE", "%$this->searchRapport%")->first();
 
-        $this->updateSearch();
 
         return view('livewire.raport-data-table',[
             'montant_vente_valide' => $montant_vente_valide,
@@ -124,10 +124,6 @@ class RaportDataTable extends Component
         $produit->update([
             'qte' => $produit->qte + $dette->qte_dette
         ]);
-    }
-
-    public function updateSearch(){
-        $this->dateSearch = $this->search;
     }
 
     public function valider($id){
@@ -187,5 +183,15 @@ class RaportDataTable extends Component
     }
     public function vente(){
 
+    }
+
+    public function printReportAnnee(){
+        return redirect()->route('rapport-annuel', ['annee' => $this->search]);
+    }
+    public function printReportMois(){
+        return redirect()->route('rapport-mensuel', ['mois' => $this->search]);
+    }
+    public function printReportjour(){
+        return redirect()->route('rapport-journalier', ['jour' => $this->search]);
     }
 }

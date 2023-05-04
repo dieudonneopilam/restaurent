@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Achat;
 use App\Models\Dette;
 use App\Models\Vente;
+use App\Models\Rapport;
 use App\Models\Depenses;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 
@@ -57,23 +60,32 @@ class RapportController extends Controller
     // rapport de la table rapport du caissier
 
     public function rapportRapportAnnee($annee){
-        dd($annee);
+        $year = '';
+        for ($i=0; $i < 4; $i++) {
+            $year = $year .''. $annee[$i];
+        }
+
+        $pdf = Pdf::loadView('rapport.home',[
+            'rapports' => Rapport::where('date_rapport','LIKE','%'.$year.'%')->OrderBy('date_rapport','asc')->get()
+        ]);
+
+    $pdf->setPaper('a4', 'landscape');
+    return $pdf->download('rapport.pdf');
     }
 
     public function rapportRapportMois($mois){
+        $mth = '';
+        for ($i=0; $i < 7; $i++) {
+            $mth = $mth .''. $mois[$i];
+        }
 
-        $orders = DB::table('ventes')
-        ->select(DB::raw('DISTINCT DATE_FORMAT(date_vente, "%Y-%m-%d") AS date_vente'))
-        ->where('date_vente', 'like', '%'.$mois.'%')
-        ->get();
+        Carbon::setLocale('fr');
+        // Créer une instance de Carbon à partir de la date du rapport
+        $date = Carbon::parse($mth);
+        // Afficher le mois en toutes lettres
 
         $pdf = Pdf::loadView('rapport.home',[
-            'orders' => $orders,
-            'ventes' => Vente::where('deleted','=',0)->get(),
-            'achats' => Achat::where('deleted','=',0)->get(),
-            'depenses' => Depenses::where('deleted','=',0)->get(),
-            'dettes' => Dette::all(),
-            'rapports' => Rapport::where('date_rapport','LIKE','%'.$this->search.'%')->orderBy('date_rapport','desc')
+            'rapports' => Rapport::where('date_rapport','LIKE','%'.$mth.'%')->OrderBy('date_rapport','asc')->get()
         ]);
 
     $pdf->setPaper('a4', 'landscape');

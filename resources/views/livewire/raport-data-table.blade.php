@@ -203,8 +203,8 @@
         <div class="w-full m-5 lg:w-5/6">
             <div class="flex flex-wrap-reverse items-center justify-between mx-1">
                 <div x-show="table" class="w-full h-10 sm:w-2/3">
-                    <input x-model="search" x-mask="9999-99-99" class="w-4/5 h-full px-5 border rounded sm:w-1/2"
-                        wire:model.debounce.500ms="search" placeholder="AAAA/MM/JR">
+                    <input x-model="searchinput" x-mask="9999-99-99" class="w-4/5 h-full px-5 border rounded sm:w-1/2"
+                        wire:model="search" type="text" placeholder="AAAA/MM/JR">
                     <select wire:model='nbpage' class="w-1/6 h-full px-1 border rounded" name=""
                         id="">
                         <option value="5">5</option>
@@ -213,7 +213,7 @@
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-
+                {{ $search }}
                 </div>
                 <div class="font-mono text-xl font-bold text-blue-500 underline">
                     RAPPORT DE TOUS PAR DATTE
@@ -249,8 +249,8 @@
                 </div>
             </div>
             <div x-show="report" class="flex items-center h-10 px-2 bg-blue-400 rounded shadow">
-                @if ($search)
-                <a x-show="search.length >=4" class="flex items-center mx-10 text-white" href="{{ route('rapport-annuel',['annee' => $search]) }}">
+                @if ($search and $rapports->count())
+                <a href="#" x-show="searchinput.length >=4" wire:click="printReportAnnee({{ $search }})" class="flex items-center mx-10 text-white">
                     <span class="block mr-1">
                         rapport anuel
                     </span>
@@ -258,7 +258,7 @@
                         <path fill-rule="evenodd" d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.5a.5.5 0 0 1 1 0V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.354 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V11h-1v3.293l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
                     </svg>
                 </a>
-                <a x-show="search.length >=7" class="flex items-center mx-10 text-white" href="{{ route('rapport-mensuel',['mois' => $dateSearch]) }}">
+                <a href="#" x-show="searchinput.length >=7" wire:click="printReportMois({{ $search }})" class="flex items-center mx-10 text-white">
                     <span class="block mr-1">
                         rapport mensuel
                     </span>
@@ -266,7 +266,7 @@
                         <path fill-rule="evenodd" d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.5a.5.5 0 0 1 1 0V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.354 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V11h-1v3.293l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
                     </svg>
                 </a>
-                <a x-show="search.length >= 10" class="flex items-center mx-10 text-white" href="{{ route('rapport-journalier',['jour' => $search]) }}">
+                <a href="#" x-show="searchinput.length >= 10" wire:click="printReportjour({{ $search }})" class="flex items-center mx-10 text-white">
                     <span class="block mr-1">
                         rapport journalier
                     </span>
