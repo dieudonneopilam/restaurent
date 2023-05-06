@@ -2,8 +2,17 @@
     @if (!Auth::user()->is_visit)
     <div x-show="openadd" class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
         <div class="hidden w-full p-10 md:block h-96">
-            <img class="object-fill w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ asset('img/vendre.webp') }}" alt="" srcset="">
+           @if ($produit_id > 0)
+            <img class="object-fill w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ Storage::url($file->file) }}" alt="" srcset="">
+           @else
+           <img class="object-fill w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ asset('img/vendre.webp') }}" alt="" srcset="">
+           @endif
         </div>
+        @if ($produit_id>0)
+            <div class="p-1 -full md:hidden h-28">
+                <img class="object-fill w-auto h-full rounded-tl-2xl" src="{{ Storage::url($file->file) }}" alt="" srcset="">
+            </div>
+        @endif
         <div class="flex flex-col justify-around p-5">
             <form x-data="{ open: false, dette : false }" wire:submit.prevent='submit' class="flex flex-col items-start justify-between">
                 <div class="flex justify-end w-full">
@@ -15,8 +24,8 @@
                 </div>
                 <div class="w-full my-3">
                     <label for="">Selection le produit</label>
-                    <select wire:model.defer='produit_id' class="w-full h-10 p-1 pl-2 border rounded">
-                        <option value="null">select produit</option>
+                    <select wire:model='produit_id' class="w-full h-10 p-1 pl-2 border rounded">
+                        <option value="0">select produit</option>
                         @foreach ($produits as $produit)
                         @if (!$produit->deleted)
                         <option value="{{ $produit->id }}">{{ $produit->designation }}</option>
@@ -49,13 +58,13 @@
                 </div>
                 @if(!Auth::user()->is_server)
                 <div class="flex items-center ">
-                    <input wire:model.defer='me' x-on:click="open =! open" id="me" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
+                    <input wire:model.defer='me' x-on:click="open = !open" id="me" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
                     <label class="ml-5" for="me">select server</label>
                 </div>
                 <div x-show="open" x-transition.duration.500ms class="w-full my-3">
                     <label for="">Selectionner le serveur</label>
-                    <select wire:model.defer='server_id' class="w-full h-10 p-1 pl-2 border rounded">
-                        <option value="null">select serveur</option>
+                    <select wire:model='server_id' class="w-full h-10 p-1 pl-2 border rounded">
+                        <option value="0">select serveur</option>
                         @foreach ($agents as $agent)
                         <option value="{{ $agent->id }}">{{ $agent->name }} {{ $agent->lastname }}</option>
                         @endforeach
@@ -92,6 +101,15 @@
 
                     <div class=" alert-success">
                         {{ session('message') }}
+                    </div>
+
+                </div>
+                @endif
+                @if (session()->has('error_qte'))
+                <div class="w-full p-5 bg-red-400 rounded">
+
+                    <div class=" alert-success">
+                        {{ session('error_qte') }}
                     </div>
 
                 </div>
@@ -215,6 +233,13 @@
                                                     <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
                                                 </svg>
                                             </div>
+                                            @if (Auth::user()->is_admin)
+                                            <div class="w-5 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <svg wire:click="deleteVenteValide({{ $vente->id }})" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </div>
+                                            @endif
                                             @else
                                             @if (Auth::user()->is_server)
                                             <div class="flex justify-center px-2 py-1 mr-5 font-medium text-red-500 transform rounded-full w-14 hover:scale-110 ">
@@ -232,6 +257,7 @@
                                             <div class="px-2 py-1 mr-5 text-white transform bg-green-500 rounded-full w-14 hover:scale-110 ">
                                                 <a wire:click="valider({{ $vente->id }})" href="#">valider</a>
                                             </div>
+
                                             @endif
                                             @endif
                                             @if (Auth::user()->id == $vente->user_id and !$vente->validate)
@@ -241,7 +267,6 @@
                                                 </svg>
                                             </div>
                                             @endif
-
                                         </div>
                                     </td>
                                 </tr>

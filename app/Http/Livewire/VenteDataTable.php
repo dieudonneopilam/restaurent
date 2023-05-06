@@ -25,6 +25,7 @@ class VenteDataTable extends Component
     public $nbpage = 5;
     public $open = true;
     public $opentable = false;
+    public $file;
 
     public $rules = [
         'search' => ['required'],
@@ -69,8 +70,6 @@ class VenteDataTable extends Component
             }
         }
 
-
-
         return view('livewire.vente-data-table',[
             'ventes' => $ventes,
             'produits' => Produit::all(),
@@ -92,6 +91,7 @@ class VenteDataTable extends Component
             'qte' => $produit->qte - $vente->qte_vente
         ]);
     }
+
     public function submit()
     {
         $this->rules = [
@@ -107,67 +107,75 @@ class VenteDataTable extends Component
             $this->rules['name_dette'] = ['required'];
         }
         $this->validate();
-        if (Auth::user()->is_comptoire OR Auth::user()->is_admin) {
-            if ($this->me and !$this->me_dette) {
-                Vente::create([
-                    'produit_id' => $this->produit_id,
-                    'qte_vente' => $this->qte_vendu,
-                    'prix_vente' => $this->prix_vente,
-                    'user_id' => $this->server_id,
-                    'date_vente' => now(),
-                    'validate' => 1
-                ]);
-            }else if (!$this->me and $this->me_dette) {
-                Dette::create([
-                    'produit_id' => $this->produit_id,
-                    'qte_dette' => $this->qte_vendu,
-                    'prix_vente' => $this->prix_vente,
-                    'user_id' => Auth::user()->id,
-                    'date_dette' => now(),
-                    'name_dette' => $this->name_dette,
-                ]);
-            }else {
-                Vente::create([
-                    'produit_id' => $this->produit_id,
-                    'qte_vente' => $this->qte_vendu,
-                    'prix_vente' => $this->prix_vente,
-                    'user_id' => Auth::user()->id,
-                    'date_vente' => now(),
-                    'validate' => 1
-                ]);
-            }
-            $produit = Produit::findOrFail($this->produit_id);
-            $produit->update([
-                'qte' => $produit->qte - $this->qte_vendu
-            ]);
 
-        } elseif(Auth::user()->is_server) {
-            if ($this->me_dette) {
-                Dette::create([
-                    'produit_id' => $this->produit_id,
-                    'qte_dette' => $this->qte_vendu,
-                    'prix_vente' => $this->prix_vente,
-                    'user_id' => Auth::user()->id,
-                    'date_dette' => now(),
-                    'name_dette' => $this->name_dette,
-                ]);
+        $qte_dispo = Produit::where('id','=',$this->produit_id)->firstOrFail();
+
+
+        if ($qte_dispo > $this->qte_vendu) {
+            if (Auth::user()->is_comptoire OR Auth::user()->is_admin) {
+                if ($this->me and !$this->me_dette) {
+                    Vente::create([
+                        'produit_id' => $this->produit_id,
+                        'qte_vente' => $this->qte_vendu,
+                        'prix_vente' => $this->prix_vente,
+                        'user_id' => $this->server_id,
+                        'date_vente' => now(),
+                        'validate' => 1
+                    ]);
+                }else if (!$this->me and $this->me_dette) {
+                    Dette::create([
+                        'produit_id' => $this->produit_id,
+                        'qte_dette' => $this->qte_vendu,
+                        'prix_vente' => $this->prix_vente,
+                        'user_id' => Auth::user()->id,
+                        'date_dette' => now(),
+                        'name_dette' => $this->name_dette,
+                    ]);
+                }else {
+                    Vente::create([
+                        'produit_id' => $this->produit_id,
+                        'qte_vente' => $this->qte_vendu,
+                        'prix_vente' => $this->prix_vente,
+                        'user_id' => Auth::user()->id,
+                        'date_vente' => now(),
+                        'validate' => 1
+                    ]);
+                }
                 $produit = Produit::findOrFail($this->produit_id);
                 $produit->update([
                     'qte' => $produit->qte - $this->qte_vendu
                 ]);
-            }else{
-                Vente::create([
-                    'produit_id' => $this->produit_id,
-                    'qte_vente' => $this->qte_vendu,
-                    'prix_vente' => $this->prix_vente,
-                    'user_id' => Auth::user()->id,
-                    'date_vente' => now(),
-                ]);
+
+            } elseif(Auth::user()->is_server) {
+                if ($this->me_dette) {
+                    Dette::create([
+                        'produit_id' => $this->produit_id,
+                        'qte_dette' => $this->qte_vendu,
+                        'prix_vente' => $this->prix_vente,
+                        'user_id' => Auth::user()->id,
+                        'date_dette' => now(),
+                        'name_dette' => $this->name_dette,
+                    ]);
+                    $produit = Produit::findOrFail($this->produit_id);
+                    $produit->update([
+                        'qte' => $produit->qte - $this->qte_vendu
+                    ]);
+                }else{
+                    Vente::create([
+                        'produit_id' => $this->produit_id,
+                        'qte_vente' => $this->qte_vendu,
+                        'prix_vente' => $this->prix_vente,
+                        'user_id' => Auth::user()->id,
+                        'date_vente' => now(),
+                    ]);
+                }
+
             }
 
+            session()->flash('message','vente enregistrer avec success');
+        }else{
+            session()->flash('error_qte','vous avez entrer une quantite superieur');
         }
-
-        session()->flash('message','vente enregistrer avec success');
 
         $this->opentable = true;
         $this->open = false;
@@ -180,5 +188,29 @@ class VenteDataTable extends Component
     }
     public function deleteVenteUnValide($id){
         Vente::findOrFail($id)->delete();
+    }
+
+    public function deleteVenteValide($id){
+
+        $vente = Vente::findOrFail($id);
+        $produit = Produit::findOrFail($vente->produit_id);
+
+        $produit->update([
+            'qte' => $produit->qte + $vente->qte_vendu
+        ]);
+
+        $vente->update([
+            'deleted' => 1
+        ]);
+
+        dd($vente->produit_id);
+    }
+    public function updatingProduitId($value){
+        if($value){
+            $this->file = Produit::where('id','=',$value)->first();
+        }
+    }
+    public function updatingQteVendu($value){
+
     }
 }
