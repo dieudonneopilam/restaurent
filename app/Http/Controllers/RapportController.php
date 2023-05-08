@@ -65,9 +65,24 @@ class RapportController extends Controller
             $year = $year .''. $annee[$i];
         }
 
-        $pdf = Pdf::loadView('rapport.home',[
-            'rapports' => Rapport::where('date_rapport','LIKE','%'.$year.'%')->OrderBy('date_rapport','asc')->get()
+        $months = DB::table('rapports')
+                ->selectRaw('DATE_FORMAT(date_rapport, "%Y-%m") as month,
+                SUM(vente_jour) as vente_jour,
+                SUM(dette_jour) as dette_jour,
+                SUM(dette_non_payer) as dette_non_payer,
+                SUM(achat_jour) as achat_jour,
+                SUM(depense_jour) as depense_jour
+                ')
+                ->groupBy('month')
+                ->OrderBy('month','asc')
+                ->get();
+
+        $pdf = Pdf::loadView('rapport.annuel',[
+            'rapports' => $months,
+            'annee' => $year
         ]);
+
+
 
     $pdf->setPaper('a4', 'landscape');
     return $pdf->download('rapport.pdf');
@@ -85,15 +100,22 @@ class RapportController extends Controller
         // Afficher le mois en toutes lettres
 
         $pdf = Pdf::loadView('rapport.home',[
-            'rapports' => Rapport::where('date_rapport','LIKE','%'.$mth.'%')->OrderBy('date_rapport','asc')->get()
+            'rapports' => Rapport::where('date_rapport','LIKE','%'.$mth.'%')->OrderBy('date_rapport','asc')->get(),
+            'date' => $date->formatLocalized('%B')
         ]);
 
-    $pdf->setPaper('a4', 'landscape');
-    return $pdf->download('rapport.pdf');
+        $pdf->setPaper('a4', 'landscape');
+        return $pdf->download('rapport.pdf');
     }
 
     public function rapportRapportJour($jour){
-        dd($jour);
+        $pdf = Pdf::loadView('rapport.journalier',[
+            'rapports' => Rapport::where('date_rapport','LIKE','%'.$jour.'%')->OrderBy('date_rapport','asc')->get(),
+            'jour' => $jour
+        ]);
+
+        $pdf->setPaper('a4', 'landscape');
+        return $pdf->download('rapport.pdf');
     }
 
     // rapport de la table Caisse du caissier

@@ -20,4 +20,10 @@ class UserData extends Component
             'date_deleted' => now()
         ]);
     }
+
+    public function restaurer($id){
+        $user = User::findOrFail($id)->update([
+            'deleted' => 0,
+        ]);
+    }
 }

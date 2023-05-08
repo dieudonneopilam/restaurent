@@ -3,7 +3,7 @@
         <div class="w-full m-5 lg:w-5/6">
             <div class="flex flex-wrap-reverse items-center justify-between">
 
-                <input class="w-full h-10 px-5 border rounded sm:w-2/3" wire:model="search" placeholder="search vente">
+                <input class="w-full h-10 px-5 border rounded sm:w-2/3" wire:model="search" placeholder="search produit">
                 <div class="flex items-center justify-center ">
                     <a class="mr-5 text-blue-400" href="{{ route('home') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 96 960 960" width="30">

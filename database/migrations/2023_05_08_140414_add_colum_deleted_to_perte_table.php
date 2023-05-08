@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pertes', function (Blueprint $table) {
-            //
+            $table->boolean('deleted')->default(0);
+            $table->dateTime('date_deleted')->nullable();
         });
     }
 
@@ -22,8 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pertes', function (Blueprint $table) {
-            $table->boolean('deleted')->default(0);
-            $table->dateTime('date_deleted')->nullable();
+            //
         });
     }
 };

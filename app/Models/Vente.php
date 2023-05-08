@@ -10,7 +10,7 @@ use App\Models\User;
 class Vente extends Model
 {
     use HasFactory;
-    protected $fillable = ['produit_id', 'qte_vente','prix_vente', 'user_id', 'date_vente','validate',];
+    protected $fillable = ['produit_id', 'qte_vente','prix_vente', 'user_id', 'date_vente','validate','deleted','date_deleted'];
 
     public function produit()
     {

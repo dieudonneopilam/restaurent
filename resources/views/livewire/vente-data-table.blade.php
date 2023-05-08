@@ -1,4 +1,4 @@
-<div x-data="{ openadd: false, opentable: true }">
+<div x-data="{ openadd: false, opentable: true, openserver:false, dettevente : false }">
     @if (!Auth::user()->is_visit)
     <div x-show="openadd" class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
         <div class="hidden w-full p-10 md:block h-96">
@@ -58,10 +58,10 @@
                 </div>
                 @if(!Auth::user()->is_server)
                 <div class="flex items-center ">
-                    <input wire:model.defer='me' x-on:click="open = !open" id="me" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
+                    <input wire:model.defer='me' x-on:click="openserver = !openserver" id="me" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
                     <label class="ml-5" for="me">select server</label>
                 </div>
-                <div x-show="open" x-transition.duration.500ms class="w-full my-3">
+                <div x-show="openserver" x-transition.duration.500ms class="w-full my-3">
                     <label for="">Selectionner le serveur</label>
                     <select wire:model='server_id' class="w-full h-10 p-1 pl-2 border rounded">
                         <option value="0">select serveur</option>
@@ -77,10 +77,10 @@
                 </div>
                 @endif
                 <div class="flex items-center ">
-                    <input wire:model.defer='me_dette' x-on:click="dette =! dette" id="me_dette" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
+                    <input wire:model.defer='me_dette' x-on:click="dettevente =! dettevente" id="me_dette" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
                     <label class="ml-5" for="me_dette">dette</label>
                 </div>
-                <div x-show="dette" x-transition.duration.500ms class="w-full my-3">
+                <div x-show="dettevente" x-transition.duration.500ms class="w-full my-3">
                     <div class="w-full my-3">
                         <label for="">Name Person</label>
                         <input wire:model.defer='name_dette' class="w-full h-10 p-1 pl-2 border rounded" type="text">

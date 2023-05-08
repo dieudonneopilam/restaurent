@@ -30,12 +30,11 @@
 </head>
 <body>
 
-<h1 style="font-family: Arial, Helvetica, sans-serif">Rapport Mensuel</h1>
-<h2 style="font-family: Arial, Helvetica, sans-serif">Mois : {{ $date }}</h2>
+<h1 style="font-family: Arial, Helvetica, sans-serif">Rapport Journalier</h1>
+<h2 style="font-family: Arial, Helvetica, sans-serif">date : {{ $jour }}</h2>
 
 <table id="customers">
   <tr>
-    <th>date</th>
     <th>ventes</th>
     <th>dettes</th>
     <th>achats</th>
@@ -44,9 +43,6 @@
   </tr>
   @forelse ($rapports as $rapport)
   <tr>
-    <td>
-        <div>{{ date('Y-m-d', strtotime($rapport->date_rapport)) }}</div>
-    </td>
     <td>
         <div style="color: green">{{ $rapport->vente_jour }} FC</div>
     </td>

@@ -1,5 +1,5 @@
 <div x-data="{ openadd: false, opentable: true }">
-    {{-- <div x-show="openadd" class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
+    <div x-show="openadd" class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
         <div class="hidden w-full p-10 md:block h-96">
             <img class="object-fill w-full h-full rounded-tl-2xl rounded-bl-2xl" src="{{ asset('img/vendre.webp') }}" alt="" srcset="">
         </div>
@@ -28,16 +28,16 @@
                     {{ $message }}
                     @enderror
                 </div>
-                <div class="w-full my-3">
+                <div class="w-full my-1">
                     <label for="">Quantite perdue </label>
                     <input class="w-full h-10 p-1 pl-2 border rounded" placeholder="ex: 1" wire:model.defer="qte_perte" type="number">
                 </div>
                 <div class='text-red-600'>
-                    @error('qte_vendu')
+                    @error('submit')
                     {{ $message }}
                     @enderror
                 </div>
-                <div class="w-full my-3">
+                <div class="w-full my-1">
                     <label for="">Prix Unitaire</label>
                     <input wire:model.defer='prix_vente' class="w-full h-10 p-1 pl-2 border rounded" type="number">
                 </div>
@@ -46,25 +46,27 @@
                     {{ $message }}
                     @enderror
                 </div>
-                <div class="flex items-center ">
-                    <input wire:model.defer='me_dette' x-on:click="dette =! dette" id="me_dette" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
-                    <label class="ml-5" for="me_dette">dette</label>
-                </div>
-                <div x-show="dette" x-transition.duration.500ms class="w-full my-3">
-                    <div class="w-full my-3">
-                        <label for="">Name Person</label>
-                        <input wire:model.defer='name_dette' class="w-full h-10 p-1 pl-2 border rounded" type="text">
+                <div x-transition.duration.500ms class="w-full my-1">
+                    <div class="w-full my-1">
+                        <label for="">Responsable</label>
+                        <input wire:model.defer='responsable' class="w-full h-10 p-1 pl-2 border rounded" type="text">
                     </div>
                     <div class='text-red-600'>
-                        @error('prix_vente')
+                        @error('responsable')
                         {{ $message }}
                         @enderror
                     </div>
                 </div>
-                <div class="flex justify-center">
-                    <button wire:loading type="button" class="text-blue-500" disabled>
-                        Processing...
-                    </button>
+                <div x-transition.duration.500ms class="w-full my-1">
+                    <div class="w-full my-1">
+                        <label for="">date</label>
+                        <input wire:model.defer='date_perte' class="w-full h-10 p-1 pl-2 border rounded" type="date">
+                    </div>
+                    <div class='text-red-600'>
+                        @error('date_perte')
+                        {{ $message }}
+                        @enderror
+                    </div>
                 </div>
                 @if (session()->has('message'))
                 <div x-data="{ openadd: false, opentable: true }" class="w-full p-5 bg-green-400 rounded">
@@ -81,8 +83,14 @@
 
             </form>
         </div>
-    </div> --}}
+    </div>
+
     <div x-show="opentable" class="overflow-x-auto">
+        @if (session()->has('messageS'))
+            <div class="flex items-center justify-center w-11/12 h-12 mx-auto text-black bg-green-300 rounded md:w-10/12 ">
+                {{ session('messageS') }}
+            </div>
+        @endif
         <div class="flex items-center justify-center p-2 overflow-hidden font-sans bg-white min-w-screen">
             <div class="w-full m-5 lg:w-5/6">
                 <div class="flex flex-wrap-reverse items-center justify-between mx-1">
@@ -100,13 +108,6 @@
                         <div class="flex justify-center text-green-500 ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                                 <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
-                            </svg>
-                        </div>
-                    </span>
-                    <span class="flex items-center text-lg">{{ ' Fc' }}
-                        <div class="flex justify-center text-red-500 ">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-exclamation" viewBox="0 0 16 16">
-                                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
                             </svg>
                         </div>
                     </span>
@@ -176,13 +177,15 @@
                                             <span class="font-medium">{{ $perte->person_perte }}</span>
                                         </div>
                                     </td>
+                                    @if (Auth::user()->is_admin)
                                     <td class="inline-block px-6 py-3 text-left">
                                         <div class="w-5 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <svg wire:click="deleteVenteUnValide({{  }})" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg wire:click="deletePerte({{ $perte->id }})" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                             </svg>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                             @empty
                                     <div class="text-lg text-red-500 ">

@@ -44,25 +44,8 @@
                         @if ($montant_vente_valide)
                             <tr x-show="dateReport.length >= 10" class="border-b border-gray-200 hover:bg-gray-100">
                                 <td class="px-6 py-3 text-left whitespace-nowrap">
-                                    <div class="flex items-center text-green-500">
-                                        <span class="font-medium">{{ $montant_vente_valide }}FC</span>
-                                        <span class="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div class="flex items-center text-red-500">
-                                        <span class="font-medium">{{ $montant_vente_invalide }}FC</span>
-                                        <span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                fill="currentColor" class="bi bi-exclamation" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
-                                            </svg>
-                                        </span>
+                                    <div class="flex items-center text-black">
+                                        <span class="font-medium">{{ $searchRapport }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-3 text-left whitespace-nowrap">
