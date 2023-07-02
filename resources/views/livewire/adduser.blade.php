@@ -39,7 +39,7 @@
             <div class="w-full m-3">
                 <select wire:model='fonction' class="w-full h-10 p-1 pl-2 border rounded">
                     <option value="null">select fonction</option>
-                    <option value="serveur">Serveur</option>
+                    {{-- <option value="serveur">Serveur</option> --}}
                     <option value="admin">admin</option>
                     <option value="comptoire">Comptoire</option>
                     <option value="visit">visit</option>

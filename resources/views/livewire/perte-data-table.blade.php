@@ -96,7 +96,7 @@
                 <div class="flex flex-wrap-reverse items-center justify-between mx-1">
                     <div class="w-full h-10 sm:w-2/3">
                         <input x-mask="9999-99-99" class="w-4/5 h-full px-5 border rounded sm:w-1/2" wire:model.debounce.1000ms="search" placeholder="AAAA/MM/JR">
-                        <select wire:model='nbpage' class="w-1/6 h-full px-1 border rounded" name="" id="">
+                        <select wire:model='nb' class="w-1/6 h-full px-1 border rounded" name="" id="">
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="25">25</option>
@@ -104,7 +104,7 @@
                             <option value="100">100</option>
                         </select>
                     </div>
-                    <span class="flex items-center text-lg">{{ ' Fc' }}
+                    <span class="flex items-center text-lg">{{ $total.' Fc' }}
                         <div class="flex justify-center text-green-500 ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                                 <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />

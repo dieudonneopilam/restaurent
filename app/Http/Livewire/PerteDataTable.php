@@ -12,9 +12,11 @@ class PerteDataTable extends Component
     use WithPagination;
 
     public $produit_id;
-    public $search;
+    public $search = '';
     public $date_perte;
+
     public $nb = 5;
+
     public $qte_perte;
     public $prix_vente;
     public $responsable;
@@ -27,11 +29,21 @@ class PerteDataTable extends Component
         'date_perte' => ['required']
     ];
 
+
+
     public function render()
     {
+        $pertes = Produit::where('deleted','=',0)->get();
+        $total = 0;
+
+        foreach($pertes as $perte){
+            $total = $total + $perte->prix_perdu * $perte->qte_perdu;
+        }
+
         return view('livewire.perte-data-table',[
             'produits' => Produit::where('deleted','=',0)->get(),
             'pertes' => Perte::where('deleted','=',0)->paginate($this->nb),
+            'total' => $total
         ]);
     }
 
