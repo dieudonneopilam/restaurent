@@ -18,14 +18,24 @@ class RaportDataTable extends Component
 {
     use WithPagination;
 
-    public $montant_vente_valides;
-    public $montant_vente_invalides;
-    public $montant_dette_valides;
-    public $montant_dette_invalides;
+    public $montant_vente_valide_Fc;
+    public $montant_vente_valide_Usd;
+    public $montant_vente_invalide_Fc;
+
+    public $montant_dette_valide_Fc;
+    public $montant_dette_invalide_Fc;
+    public $montant_dette_valide_usd;
+    public $montant_dette_invalide_Usd;
+
+
     public $montant_achats;
-    public $montant_depensess;
+
+    public $montant_depenses_Fc;
+    public $montant_depenses_usd;
+
     public $reste_valides;
     public $reste_invalides;
+    public $dateReporte;
 
     public $dateSearch;
 
@@ -41,8 +51,8 @@ class RaportDataTable extends Component
     ];
 
     public function mount(){
-        $this->searchRapport = date(now());
-        $this->searchRapport = date('Y-m-d');
+        $this->dateReporte = date(now());
+        $this->dateReporte = date('Y-m-d');
         $this->search = '';
         $this->nbpage = 5;
     }
@@ -51,34 +61,60 @@ class RaportDataTable extends Component
     }
     public function render()
     {
-        $montant_vente_valide = 0;
-        $montant_vente_invalide = 0;
-        $ventes = Vente::where('date_vente', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->get();
+        $montant_vente_valide_Fc = 0;
+        $montant_vente_valide_Usd = 0;
+        $montant_vente_invalide_Fc = 0;
+        $montant_vente_invalide_Usd = 0;
+        $ventes = Vente::where('date_vente', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->where('devise_prix','=','Fc')->get();
         foreach($ventes as $vente){
             if ($vente->validate == 1) {
-                $montant_vente_valide = $montant_vente_valide + $vente->prix_vente * $vente->qte_vente;
+                $montant_vente_valide_Fc = $montant_vente_valide_Fc + $vente->prix_vente * $vente->qte_vente;
             }else{
-                $montant_vente_invalide = $montant_vente_invalide + $vente->prix_vente * $vente->qte_vente;
+                $montant_vente_invalide_Fc = $montant_vente_invalide_Fc + $vente->prix_vente * $vente->qte_vente;
             }
         }
 
-        $dettes = Dette::where('date_dette', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->get();
+        $ventes = Vente::where('date_vente', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->where('devise_prix','=','$')->get();
+        foreach($ventes as $vente){
+            if ($vente->validate == 1) {
+                $montant_vente_valide_Usd = $montant_vente_valide_Usd + $vente->prix_vente * $vente->qte_vente;
+            }else{
+                $montant_vente_invalide_Usd = $montant_vente_invalide_Usd + $vente->prix_vente * $vente->qte_vente;
+            }
+        }
 
-        $montant_dette_valide = 0;
-        $montant_dette_invalide = 0;
+        $dettes = Dette::where('date_dette', 'LIKE', "%$this->searchRapport%")->where('devise_prix','=','Fc')->where('deleted','=',0)->get();
+
+        $montant_dette_valide_Fc = 0;
+        $montant_dette_invalide_Fc = 0;
 
         foreach($dettes as $dette){
 
             if ($dette->payed == 1) {
-                $montant_dette_valide = $montant_dette_valide + $dette->prix_vente * $dette->qte_dette;
+                $montant_dette_valide_Fc = $montant_dette_valide_Fc + $dette->prix_vente * $dette->qte_dette;
             }else{
-                $montant_dette_invalide = $montant_dette_invalide + $dette->prix_vente * $dette->qte_dette;
+                $montant_dette_invalide_Fc = $montant_dette_invalide_Fc + $dette->prix_vente * $dette->qte_dette;
             }
         }
 
-        $depense = Depenses::where('date_depense', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->get();
-        $montant_depenses = $depense->sum('montant');
+        $dettes = Dette::where('date_dette', 'LIKE', "%$this->searchRapport%")->where('devise_prix','=','Fc')->where('deleted','=',0)->get();
+        $montant_dette_valide_Usd = 0;
+        $montant_dette_invalide_Usd = 0;
 
+        foreach($dettes as $dette){
+
+            if ($dette->payed == 1) {
+                $montant_dette_valide_Usd = $montant_dette_valide_Usd + $dette->prix_vente * $dette->qte_dette;
+            }else{
+                $montant_dette_invalide_Usd = $montant_dette_invalide_Usd + $dette->prix_vente * $dette->qte_dette;
+            }
+        }
+
+        $depense = Depenses::where('date_depense', 'LIKE', "%$this->searchRapport%")->where('devise_depense','=','Fc')->where('deleted','=',0)->get();
+        $montant_depenses_Fc = $depense->sum('montant');
+
+        $depense = Depenses::where('date_depense', 'LIKE', "%$this->searchRapport%")->where('devise_depense','=','$')->where('deleted','=',0)->get();
+        $montant_depenses_Usd = $depense->sum('montant');
 
 
         $achats = Achat::where('date_achat', 'LIKE', "%$this->searchRapport%")->where('deleted','=',0)->get();
@@ -87,26 +123,42 @@ class RaportDataTable extends Component
         $dettes = Dette::OrderBy('date_dette','desc')->where('date_dette', 'LIKE', "%$this->search%")->where('deleted','=',0)->paginate($this->nbpage);
 
 
-        $this->montant_vente_valides = $montant_vente_valide;
-        $this->montant_vente_invalides = $montant_vente_invalide;
-        $this->montant_dette_valides = $montant_dette_valide;
-        $this->montant_dette_invalides = $montant_dette_invalide;
-        $this->montant_achats = $montant_achat;
-        $this->montant_depensess = $montant_depenses;
+        $this->montant_vente_valide_Fc = $montant_vente_valide_Fc;
+        $this->montant_vente_invalide_Fc = $montant_vente_invalide_Fc;
 
-        $this->reste_valides = $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess;
-        $this->reste_invalides = $this->montant_vente_invalides + $this->montant_dette_invalides;
+        $this->montant_vente_valide_Usd = $montant_vente_valide_Usd;
+        $this->montant_vente_invalide_Usd = $montant_vente_invalide_Usd;
+
+        $this->montant_dette_valide_Fc = $montant_dette_valide_Fc;
+        $this->montant_dette_valide_Usd = $montant_dette_valide_Usd;
+
+        $this->montant_dette_invalide_Fc = $montant_dette_invalide_Fc;
+        $this->montant_dette_invalide_Usd = $montant_dette_invalide_Usd;
+
+        $this->montant_achats = $montant_achat;
+        $this->montant_depenses_Fc = $montant_depenses_Fc;
+        $this->montant_depenses_Usd = $montant_depenses_Usd;
+
+        $this->reste_valides_Fc = $this->montant_vente_valide_Fc + $this->montant_dette_valide_Fc - $this->montant_depenses_Fc;
+        $this->reste_valides_Usd = $this->montant_vente_valide_Usd + $this->montant_dette_valide_Usd - $this->montant_depenses_Usd;
+
+        $this->reste_invalides_Fc = $this->montant_vente_invalide_Fc + $this->montant_dette_invalide_Fc;
+        $this->reste_invalides_Usd = $this->montant_vente_invalide_Usd + $this->montant_dette_invalide_Usd;
 
         $is_report = Rapport::where("date_rapport", "LIKE", "%$this->searchRapport%")->first();
 
 
         return view('livewire.raport-data-table',[
-            'montant_vente_valide' => $montant_vente_valide,
-            'montant_vente_invalide' => $montant_vente_invalide,
-            'montant_dette_valide' => $montant_dette_valide,
-            'montant_dette_invalide' => $montant_dette_invalide,
+            'montant_vente_valide_Fc' => $montant_vente_valide_Fc,
+            'montant_vente_valide_Usd' => $montant_vente_valide_Usd,
+            'montant_vente_invalide_Fc' => $montant_vente_invalide_Fc,
+            'montant_dette_valide_Fc' => $montant_dette_valide_Fc,
+            'montant_dette_valide_Usd' => $montant_dette_valide_Usd,
+            'montant_dette_invalide_Fc' => $montant_dette_invalide_Fc,
+            'montant_dette_invalide_usd' => $montant_dette_invalide_Usd,
             'montant_achat' => $montant_achat,
-            'montant_depenses' => $montant_depenses,
+            'montant_depenses_Fc' => $montant_depenses_Fc,
+            'montant_depenses_Usd' => $montant_depenses_Usd,
             'dettes' => $dettes,
             'rapports' => Rapport::where('date_rapport','LIKE','%'.$this->search.'%')->orderBy('date_rapport','desc')->paginate($this->nbpage),
             'is_report' => $is_report,
@@ -128,12 +180,12 @@ class RaportDataTable extends Component
 
     public function valider($id){
         $rapport = Rapport::create([
-            'vente_jour' => $this->montant_vente_valides,
-            'vente_non_payer' => $this->montant_vente_invalides,
-            'depense_jour' => $this->montant_depensess,
+            'vente_jour' => $this->montant_vente_valide_Fc,
+            'vente_non_payer' => $this->montant_vente_invalide_Fc,
+            'depense_jour' => $this->montant_depenses_Fc,
             'achat_jour' => $this->montant_achats,
-            'dette_jour' => $this->montant_dette_valides,
-            'dette_non_payer' => $this->montant_dette_invalides,
+            'dette_jour' => $this->montant_dette_valide_Fc,
+            'dette_non_payer' => $this->montant_dette_invalide_Fc,
             'user_id' => Auth::user()->id,
             'date_rapport' => $this->searchRapport
         ]);
@@ -141,7 +193,7 @@ class RaportDataTable extends Component
         Caisse::create([
             'rapport_id' => $rapport->id,
             'date_rapport' => $rapport->date_rapport,
-            'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
+            'argent_entree' => $this->montant_vente_valide_Fc + $this->montant_dette_valide_Fc - $this->montant_achats - $this->montant_depenses_Fc
         ]);
 
         session()->flash('message','mise a jour rapport effectue avec success');
@@ -152,12 +204,12 @@ class RaportDataTable extends Component
         $rapport = Rapport::findOrFail($idReport);
 
         $rapport->update([
-            'vente_jour' => $this->montant_vente_valides,
-            'vente_non_payer' => $this->montant_vente_invalides,
-            'depense_jour' => $this->montant_depensess,
+            'vente_jour' => $this->montant_vente_valide_Fc,
+            'vente_non_payer' => $this->montant_vente_invalide_Fc,
+            'depense_jour' => $this->montant_depenses_Fc,
             'achat_jour' => $this->montant_achats,
-            'dette_jour' => $this->montant_dette_valides,
-            'dette_non_payer' => $this->montant_dette_invalides,
+            'dette_jour' => $this->montant_dette_valide_Fc,
+            'dette_non_payer' => $this->montant_dette_invalide_Fc,
             'user_id' => Auth::user()->id,
             'date_rapport' => $this->searchRapport
         ]);
@@ -168,13 +220,13 @@ class RaportDataTable extends Component
             $caisse->update([
                 'rapport_id' => $rapport->id,
                 'date_rapport' => $rapport->date_rapport,
-                'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
+                'argent_entree' => $this->montant_vente_valide_Fc + $this->montant_dette_valide_Fc - $this->montant_depenses_Fc
             ]);
         }else{
             Caisse::create([
                 'rapport_id' => $rapport->id,
                 'date_rapport' => $rapport->date_rapport,
-                'argent_entree' => $this->montant_vente_valides + $this->montant_dette_valides - $this->montant_achats - $this->montant_depensess
+                'argent_entree' => $this->montant_vente_valide_Fc + $this->montant_dette_valide_Fc - $this->montant_depenses_Fc
             ]);
         }
 

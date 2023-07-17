@@ -23,7 +23,9 @@
                         <tr class="text-sm leading-normal text-gray-600 uppercase bg-gray-200">
                             <th class="px-6 py-3 text-left">DATE</th>
                             <th class="px-6 py-3 text-left">PRODUIT</th>
+                            <th class="px-6 py-3 text-left">STOCK INITIAL</th>
                             <th class="px-6 py-3 text-left">QUANTITE EN STOCK</th>
+                            <th class="px-6 py-3 text-left">PRIX VENTE</th>
                             <th class="px-6 py-3 text-left">STOCK ALERTE</th>
                             @if (Auth::user()->is_admin or Auth::user()->is_comptoire)
                             <th class="px-6 py-3 text-left">ACTION</th>
@@ -51,7 +53,17 @@
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
+                                            <span class="font-medium">{{ $produit->qte_init }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
                                             <span class="font-medium">{{ $produit->qte }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="font-medium">{{ $produit->prix_vente.' '. $produit->devise_prix }}</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">

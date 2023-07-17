@@ -1,5 +1,5 @@
 <div class="grid w-10/12 mx-auto bg-white shadow-lg rounded-2xl md:w-3/5 md:grid-cols-2 h-3/4">
-    <div class="relative items-center justify-center hidden w-full  h-96 md:flex">
+    <div class="relative items-center justify-center hidden w-full h-96 md:flex">
         <img class="object-fill w-full h-full rounded-tl-2xl rounded-2xl" src="{{ asset('img/add.png') }}" alt="" srcset="">
     </div>
     <div class="flex flex-col justify-around p-5">
@@ -12,7 +12,7 @@
             <span class="text-xl">Nouveau Produit</span>
         </div>
         <form class="flex flex-col items-start justify-between" wire:submit.prevent='submit' action="" enctype="multipart/form-data">
-            <div class="w-full m-3">
+            <div class="w-full mt-3">
                 <input class="w-full h-10 p-1 pl-2 border rounded" wire:model.defer='designation' placeholder="nom produit" type="text">
             </div>
             <div class='ml-3 text-red-600'>
@@ -20,7 +20,7 @@
                     {{ $message }}
                 @enderror
             </div>
-            <div class="w-full m-3">
+            <div class="w-full mt-3">
                 <input class="w-full h-10 p-1 pl-2 border rounded" placeholder="Quantité initiale" wire:model.defer='qte_initial' type="text">
             </div>
             <div class='ml-3 text-red-600'>
@@ -28,15 +28,36 @@
                     {{ $message }}
                 @enderror
             </div>
-            <div class="w-full m-3">
+            <div class="w-full mt-3">
+                <input class="w-full h-10 p-1 pl-2 border rounded" placeholder="Prix vente caisse" wire:model.defer='prix_vente' type="number">
+            </div>
+            <div class='ml-3 text-red-600'>
+                @error('prix_vente')
+                    {{ $message }}
+                @enderror
+            </div>
+            <div class="w-full mt-3">
+                <select wire:model="devise_vente" class="w-full h-10 p-1 pl-2 border rounded">
+                    <option value="null">devise prix vente</option>
+                    <option value="Fc">FC</option>
+                    {{-- <option value="$">USD</option> --}}
+                </select>
+            </div>
+            <div class='ml-3 text-red-600'>
+                @error('devise_vente')
+                    {{ $message }}
+                @enderror
+            </div>
+            <div class="w-full mt-3">
                 <input class="w-full h-10 p-1 pl-2 border rounded" placeholder="Stock Alert" wire:model.defer='stock_alerte' type="number">
             </div>
+
             <div class='ml-3 text-red-600'>
                 @error('stock_alerte')
                     {{ $message }}
                 @enderror
             </div>
-            <div class="w-full m-3">
+            <div class="w-full mt-3">
                 <input class="w-full h-10 p-1 pl-2 border rounded" type="file" wire:model.defer='file'>
             </div>
             <div class='ml-3 text-red-600'>
@@ -44,7 +65,7 @@
                     {{ $message }}
                 @enderror
             </div>
-            <div class="w-full m-3">
+            <div class="w-full mt-3">
                 <button class="w-full h-10 p-1 font-bold text-white bg-blue-500 rounded" type="submit">Enregistrer</button>
             </div>
         </form>

@@ -8,7 +8,7 @@
 
             <div class="w-full my-3">
                 <label for="">Selection le produit</label>
-                <select wire:model='produit_id' class="w-full h-10 p-1 pl-2 border rounded">
+                <select wire:model='produit_id' wire:change='change' class="w-full h-10 p-1 pl-2 border rounded">
                     <option value="null">select produit</option>
                     @foreach ($produits as $produit)
                         @if (!$produit->deleted)

@@ -54,27 +54,32 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       
-        
+
+
         $request->validate([
             'nom' => ['required'],
             'prenom' => ['required'],
-            'password' => ['required','confirmed'],
             'fonction' => ['required'],
             'mail' => ['required','email'],
-            'password_confirmation' => ['required'],
-            'file' => ['required'],
         ]);
-        
-         $filename = time().'.'.$request->file->extension();
 
-        $path = $request->file->storeAs(
-            'avatars',
-            $filename,
-            'public'
-        );
-     
-        User::findOrFail($id)->update([
+         if (!empty($request->file)) {
+            $filename = time().'.'.$request->file->extension();
+
+            $path = $request->file->storeAs(
+                'avatars',
+                $filename,
+                'public'
+            );
+         }
+         if (!empty($request->password) or !empty($request->password_confirmation)) {
+            $request->validate([
+                'password' => ['required','confirmed'],
+                'password_confirmation' => ['required'],
+            ]);
+         }
+         $user = User::findOrFail($id);
+        $user->update([
             'name' => $request->nom,
             'lastname' => $request->prenom,
             'email' => $request->mail,
@@ -83,10 +88,10 @@ class UserController extends Controller
             'is_server' => $request->fonction == 'serveur' ?  1 : 0,
             'is_comptoire' => $request->fonction == 'comptoire' ?  1 : 0,
             'is_admin' => $request->fonction == 'admin' ?  1 : 0,
-            'file' => $path
+            'file' => $path ?? $user->file
         ]);
         return \redirect()->route('user.index');
-        
+
     }
 
     /**
@@ -94,6 +99,6 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        
+
     }
 }

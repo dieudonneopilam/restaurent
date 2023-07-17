@@ -13,7 +13,7 @@ class Produit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'file', 'designation', 'qte', 'deleted','date_deleted', 'stock_alerte'
+        'file', 'designation', 'qte', 'deleted','date_deleted', 'stock_alerte', 'prix_vente', 'devise_prix','qte_init'
     ];
 
     public function achats()

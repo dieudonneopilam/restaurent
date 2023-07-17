@@ -54,23 +54,33 @@ class ProduitController extends Controller
      */
     public function update(Request $request, string $id)
     {
-    
         $request->validate([
-            'file' => ['required'],
             'designation' => ['required'],
             'stock_alerte' => ['required','numeric'],
+            'qte_initial' => ['required','numeric'],
+            'prix_vente' => ['required','numeric'],
+            'devise_prix' => ['required']
         ]);
-        $filename = time().'.'.$request->file->extension();
+
+        if (!empty($request->file)) {
+            $filename = time().'.'.$request->file->extension();
 
         $path = $request->file->storeAs(
             'avatars',
             $filename,
             'public'
         );
-        Produit::findOrFail($id)->update([
+        }
+
+       $produit =  Produit::findOrFail($id);
+       $produit->update([
             'designation' => $request->designation,
-            'file' => $path,
-            'stock_alerte' => $request->stock_alerte
+            'file' => $path ?? $produit->file,
+            'stock_alerte' => $request->stock_alerte,
+            'qte_init' => $request->qte_initial,
+            'qte' => $produit->qte - $produit->qte_init + $request->qte_initial,
+            'prix_vente' => $request->prix_vente,
+            'devise_prix' => $request->devise_prix
         ]);
 
         return \redirect()->route('produit.index');

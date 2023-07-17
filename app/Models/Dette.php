@@ -15,6 +15,7 @@ class Dette extends Model
         'produit_id',
         'qte_dette',
         'prix_vente',
+        'devise_prix',
         'dette_name',
         'date_dette',
         'name_dette',

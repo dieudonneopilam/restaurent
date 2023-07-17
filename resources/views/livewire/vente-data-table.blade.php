@@ -22,7 +22,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="w-full my-3">
+                <div class="w-full my-1">
                     <label for="">Selection le produit</label>
                     <select wire:model='produit_id' class="w-full h-10 p-1 pl-2 border rounded">
                         <option value="0">select produit</option>
@@ -38,21 +38,30 @@
                     {{ $message }}
                     @enderror
                 </div>
-                <div class="w-full my-3">
+                <div class="w-full my-1">
+                    <label for="">Quantite en stock </label>
+                    <input disabled class="w-full h-10 p-1 pl-2 border rounded" placeholder="ex: 1" wire:model.defer="qte_stock" type="number">
+                </div>
+                <div class='text-red-600'>
+                    @error('qte_stock')
+                    {{ $message }}
+                    @enderror
+                </div>
+                <div class="w-full my-1">
+                    <label for="">Prix Unitaire</label>
+                    <input disabled wire:model.defer='label_prix' class="w-full h-10 p-1 pl-2 border rounded" type="text">
+                </div>
+                <div class='text-red-600'>
+                    @error('label_prix')
+                    {{ $message }}
+                    @enderror
+                </div>
+                <div class="w-full my-1">
                     <label for="">Quantite à vendre </label>
                     <input class="w-full h-10 p-1 pl-2 border rounded" placeholder="ex: 1" wire:model.defer="qte_vendu" type="number">
                 </div>
                 <div class='text-red-600'>
                     @error('qte_vendu')
-                    {{ $message }}
-                    @enderror
-                </div>
-                <div class="w-full my-3">
-                    <label for="">Prix Unitaire</label>
-                    <input wire:model.defer='prix_vente' class="w-full h-10 p-1 pl-2 border rounded" type="number">
-                </div>
-                <div class='text-red-600'>
-                    @error('prix_vente')
                     {{ $message }}
                     @enderror
                 </div>
@@ -136,17 +145,17 @@
                             <option value="100">100</option>
                         </select>
                     </div>
-                    <span class="flex items-center text-lg">{{ $montant_valide.' Fc' }}
+                    <span class="flex items-center text-lg">{{ $montant_valide_Fc.' Fc' }}
                         <div class="flex justify-center text-green-500 ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                                 <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
                             </svg>
                         </div>
                     </span>
-                    <span class="flex items-center text-lg">{{ $montant_invalide.' Fc' }}
-                        <div class="flex justify-center text-red-500 ">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-exclamation" viewBox="0 0 16 16">
-                                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
+                    <span class="flex items-center text-lg">{{ $montant_valide_Usd.' $' }}
+                        <div class="flex justify-center text-green-500 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                                <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
                             </svg>
                         </div>
                     </span>
@@ -203,7 +212,7 @@
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <span class="font-medium">{{ $vente->prix_vente }} FC</span>
+                                            <span class="font-medium">{{ $vente->prix_vente }} {{ $vente->devise_prix }}</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">

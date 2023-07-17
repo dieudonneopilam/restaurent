@@ -11,10 +11,10 @@ class AddAchat extends Component
     public $qte_achat;
     public $prix_achat;
     public $produit_id;
-    
+
     protected $rules = [
         'qte_achat' => ['required'],
-        'prix_achat' => ['required','numeric'],
+        // 'prix_achat' => ['required','numeric'],
         'produit_id' => ['required','numeric']
     ];
 
@@ -30,7 +30,8 @@ class AddAchat extends Component
         Achat::create([
             'produit_id' => $this->produit_id,
             'qte_achat' => $this->qte_achat,
-            'prix_achat' => $this->prix_achat,
+            // 'prix_achat' => $this->prix_achat,
+            'prix_achat' => 0,
             'date_achat' => now()
         ]);
 

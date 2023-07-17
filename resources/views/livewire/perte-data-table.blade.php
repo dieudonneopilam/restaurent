@@ -14,7 +14,7 @@
                 </div>
                 <div class="w-full my-3">
                     <label for="">Selection le produit</label>
-                    <select wire:model.defer='produit_id' class="w-full h-10 p-1 pl-2 border rounded">
+                    <select wire:model='produit_id' class="w-full h-10 p-1 pl-2 border rounded">
                         <option value="null">select produit</option>
                         @foreach ($produits as $produit)
                         @if (!$produit->deleted)
@@ -29,23 +29,33 @@
                     @enderror
                 </div>
                 <div class="w-full my-1">
-                    <label for="">Quantite perdue </label>
-                    <input class="w-full h-10 p-1 pl-2 border rounded" placeholder="ex: 1" wire:model.defer="qte_perte" type="number">
+                    <label for="">Quantite en Stock </label>
+                    <input disabled class="w-full h-10 p-1 pl-2 border rounded" placeholder="ex: 1" wire:model="qte_stock" type="number">
                 </div>
                 <div class='text-red-600'>
-                    @error('submit')
+                    @error('qte_stock')
                     {{ $message }}
                     @enderror
                 </div>
                 <div class="w-full my-1">
                     <label for="">Prix Unitaire</label>
-                    <input wire:model.defer='prix_vente' class="w-full h-10 p-1 pl-2 border rounded" type="number">
+                    <input disabled wire:model='label_prix' class="w-full h-10 p-1 pl-2 border rounded" type="text">
                 </div>
                 <div class='text-red-600'>
-                    @error('prix_vente')
+                    @error('label_prix')
                     {{ $message }}
                     @enderror
                 </div>
+                <div class="w-full my-1">
+                    <label for="">Quantite perdue </label>
+                    <input class="w-full h-10 p-1 pl-2 border rounded" placeholder="ex: 1" wire:model.defer="qte_perte" type="number">
+                </div>
+                <div class='text-red-600'>
+                    @error('qte_perte')
+                    {{ $message }}
+                    @enderror
+                </div>
+
                 <div x-transition.duration.500ms class="w-full my-1">
                     <div class="w-full my-1">
                         <label for="">Responsable</label>
@@ -77,6 +87,16 @@
 
                 </div>
                 @endif
+                @if (session()->has('error_qte'))
+                <div x-data="{ openadd: false, opentable: true }" class="w-full p-5 bg-red-400 rounded">
+
+                    <div class=" alert-success">
+                        {{ session('error_qte') }}
+                    </div>
+
+                </div>
+                @endif
+                <p wire:loading class="text-blue-500">chargement....</p>
                 <div class="w-full my-3">
                     <input type="submit" class="w-full h-10 p-1 font-bold text-white bg-blue-500 rounded" />
                 </div>
@@ -94,8 +114,9 @@
         <div class="flex items-center justify-center p-2 overflow-hidden font-sans bg-white min-w-screen">
             <div class="w-full m-5 lg:w-5/6">
                 <div class="flex flex-wrap-reverse items-center justify-between mx-1">
+
                     <div class="w-full h-10 sm:w-2/3">
-                        <input x-mask="9999-99-99" class="w-4/5 h-full px-5 border rounded sm:w-1/2" wire:model.debounce.1000ms="search" placeholder="AAAA/MM/JR">
+                        <input x-mask="9999-99-99" class="w-4/5 h-full px-5 border rounded sm:w-1/2" wire:model.debounce.1000ms="search" placeholder="AAAA-MM-JR">
                         <select wire:model='nb' class="w-1/6 h-full px-1 border rounded" name="" id="">
                             <option value="5">5</option>
                             <option value="10">10</option>
@@ -104,7 +125,14 @@
                             <option value="100">100</option>
                         </select>
                     </div>
-                    <span class="flex items-center text-lg">{{ $total.' Fc' }}
+                    <span class="flex items-center text-lg">{{ $total_Fc.' Fc' }}
+                        <div class="flex justify-center text-green-500 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                                <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
+                            </svg>
+                        </div>
+                    </span>
+                    <span class="flex items-center text-lg">{{ $total_Usd.' $' }}
                         <div class="flex justify-center text-green-500 ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                                 <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
@@ -164,12 +192,12 @@
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <span class="font-medium">{{ $perte->prix_perdu }} FC</span>
+                                            <span class="font-medium">{{ $perte->prix_perdu }} {{ $perte->devise_prix }}</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <span class="font-medium">{{ $perte->qte_perdu * $perte->prix_perdu }} FC</span>
+                                            <span class="font-medium">{{ $perte->qte_perdu * $perte->prix_perdu }} {{ $perte->devise_prix }}</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">

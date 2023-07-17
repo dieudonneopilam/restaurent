@@ -10,7 +10,7 @@ class EditUser extends Component
 {
     use WithFileUploads;
 
-   
+
     public $id_user;
     public $nom;
     public $prenom;
@@ -27,7 +27,6 @@ class EditUser extends Component
         'fonction' => ['required'],
         'mail' => ['required'],
         'confirm' => ['required'],
-        'file' => ['required'],
         'id' => ['required']
     ];
 
@@ -37,14 +36,14 @@ class EditUser extends Component
 
     public function render()
     {
-        
+
         return view('livewire.edit-user',[
             'user' => User::findOrFail($this->id_user)
         ]);
     }
     public function submit($id){
         $this->validate();
-        
+
         $filename = time().'.'.$this->file->extension();
 
         $path = $this->file->storeAs(
@@ -52,8 +51,8 @@ class EditUser extends Component
             $filename,
             'public'
         );
-
-        User::findOrFail($id)->edit([
+        $user = User::findOrFail($id);
+        $user->edit([
             'name' => $this->nom,
             'lastname' => $this->prenom,
             'email' => $this->mail,
@@ -62,7 +61,7 @@ class EditUser extends Component
             'is_server' => $this->fonction = 'serveur' ?  1 : 0,
             'is_comptoire' => $this->fonction = 'comptoire' ?  1 : 0,
             'is_admin' => $this->fonction = 'admin' ?  1 : 0,
-            'file' => $path
+            'file' => $this->file ?? $path
         ]);
         return \redirect()->route('user.index');
     }

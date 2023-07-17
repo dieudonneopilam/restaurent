@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('produit_id')->constrained();
             $table->integer('qte_vente');
+            $table->string('devise_prix');
             $table->integer('prix_vente');
             $table->foreignId('user_id')->constrained();
             $table->dateTime('date_vente');

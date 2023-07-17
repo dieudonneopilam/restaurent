@@ -15,7 +15,7 @@ class Perte extends Model
         'prix_perdu',
         'person_perte',
         'deleted',
-        'date_deleted'
+        'date_deleted','devise_prix'
     ];
     use HasFactory;
 

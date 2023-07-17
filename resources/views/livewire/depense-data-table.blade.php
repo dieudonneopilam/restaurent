@@ -31,7 +31,20 @@
                     {{ $message }}
                     @enderror
                 </div>
-                @if(!Auth::user()->is_server)
+                <div class="w-full mt-3">
+                    <select wire:model="devise_depense" class="w-full h-10 p-1 pl-2 border rounded">
+                        <option value="null">devise prix vente</option>
+                        <option value="Fc">FC</option>
+                        {{-- <option value="$">USD</option> --}}
+                    </select>
+                </div>
+                <div class='ml text-red-600'>
+                    @error('devise_depense')
+                        {{ $message }}
+                    @enderror
+                </div>
+
+                {{-- @if(!Auth::user()->is_server)
                 <div class="flex items-center ">
                     <input wire:model.defer='achat' x-on:click="open =! open" id="me" class="w-5 h-5 p-1 pl-2 border rounded" type="checkbox">
                     <label class="ml-5" for="me">Achat Produit</label>
@@ -59,7 +72,7 @@
                         @enderror
                     </div>
                 </div>
-                @endif
+                @endif --}}
 
                 <div class="flex justify-center">
                     <button wire:loading type="button" class="text-blue-500" disabled>
@@ -97,7 +110,14 @@
                             <option value="100">100</option>
                         </select>
                     </div>
-                    <span class="flex items-center text-lg">{{ $montant_valide.' Fc' }}
+                    <span class="flex items-center text-lg">{{ $montant_valide_Fc.' Fc' }}
+                        <div class="flex justify-center text-green-500 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                                <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
+                            </svg>
+                        </div>
+                    </span>
+                    <span class="flex items-center text-lg">{{ $montant_valide_Usd.' $' }}
                         <div class="flex justify-center text-green-500 ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                                 <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
@@ -153,7 +173,7 @@
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <span class="font-medium">{{ $depense->montant }}</span>
+                                            <span class="font-medium">{{ $depense->montant }} {{ $depense->devise_depense }}</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-3 text-left whitespace-nowrap">

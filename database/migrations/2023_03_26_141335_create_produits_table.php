@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('designation');
             $table->mediumText('file');
+            $table->integer('prix_vente');
+            $table->string('devise_prix');
             $table->integer('qte');
+            $table->integer('qte_init');
             $table->integer('stock_alerte');
             $table->boolean('deleted')->default(0);
             $table->dateTime('date_deleted')->nullable();

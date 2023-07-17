@@ -12,20 +12,36 @@
                         <option value="100">100</option>
                     </select>
                 </div>
-                <span class="flex items-center text-lg">{{ $montant_valide.' Fc' }}
+               <div class="flex flex-wrap">
+                <span class="flex mx-1 items-center text-lg">{{ $montant_valide_Fc.' Fc' }}
                     <div class="flex justify-center text-green-500">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                             <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
                         </svg>
                     </div>
                 </span>
-                <span class="flex items-center text-lg">{{ $montant_invalide.' Fc' }}
+                <span class="flex mx-1 items-center text-lg">{{ $montant_invalide_Fc.' Fc' }}
                     <div class="flex justify-center text-red-500 ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-exclamation" viewBox="0 0 16 16">
                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
                         </svg>
                     </div>
                 </span>
+                <span class="flex mx-1 items-center text-lg">{{ $montant_valide_Usd.' $' }}
+                    <div class="flex justify-center text-green-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                            <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
+                        </svg>
+                    </div>
+                </span>
+                <span class="flex mx-1 items-center text-lg">{{ $montant_invalide_Usd.' $' }}
+                    <div class="flex justify-center text-red-500 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-exclamation" viewBox="0 0 16 16">
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
+                        </svg>
+                    </div>
+                </span>
+               </div>
                 <a href="{{ route('home') }}" x-on:click="openadd=true,opentable=false" class="flex items-center h-10 px-2 my-2 text-white border rounded">
                     <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 96 960 960" width="30">
                         <path

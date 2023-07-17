@@ -4,13 +4,13 @@
             <div class="flex flex-wrap-reverse items-center justify-between">
 
                 <input class="w-full h-10 px-5 border rounded sm:w-2/3" wire:model="search" placeholder="search vente" x-mask="9999-99-99">
-                <span class="flex items-center text-lg">{{ $montant.' Fc' }}
+                {{-- <span class="flex items-center text-lg">{{ $montant.' Fc' }}
                     <div class="flex justify-center text-green-500 ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                             <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
                         </svg>
                     </div>
-                </span>
+                </span> --}}
                 <div class="flex items-center justify-center ">
                     <a class="mr-5 text-blue-400" href="{{ route('home') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 96 960 960" width="30">
@@ -32,7 +32,7 @@
                             <th class="px-6 py-3 text-left">DATE</th>
                             <th class="px-6 py-3 text-left">PRODUIT</th>
                             <th class="px-6 py-3 text-left">QUANTITE ACHETER</th>
-                            <th class="px-6 py-3 text-left">PRIX TOTAL ACHAT</th>
+                            {{-- <th class="px-6 py-3 text-left">PRIX TOTAL ACHAT</th> --}}
                             <th class="px-6 py-3 text-left">ACTION</th>
                         </tr>
                     </thead>
@@ -59,11 +59,11 @@
                                             <span class="font-medium">{{ $achat->qte_achat }}</span>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-3 text-left whitespace-nowrap">
+                                    {{-- <td class="px-6 py-3 text-left whitespace-nowrap">
                                         <div class="flex items-center">
                                             <span class="font-medium">{{ $achat->prix_achat }} FC</span>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                     <td class="inline-block px-6 py-3 text-left">
                                         @if (Auth::user()->is_admin or Auth::user()->is_comptoire)
                                         <div class="flex justify-center item-center">

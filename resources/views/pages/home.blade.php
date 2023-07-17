@@ -13,22 +13,22 @@
         @if (Auth::user()->is_admin)
             <div class="pb-5 bg-white border rounded-md shadow-md hover:shadow-2xl ">
                 <img class="rounded h-36" src="{{ asset('img/user.jpg') }}" alt="">
-                <a class="text-blue-600" href="{{ route('user.index') }}">Agents</a>
+                <a class="text-blue-600" href="{{ route('user.index') }}">Utilisateurs</a>
             </div>
         @endif
          <div class="pb-5 bg-white border rounded-md shadow-md hover:shadow-2xl">
             <img class="rounded h-36" src="{{ asset('img/bottles.webp') }}" alt="">
-             <a class="text-blue-600 " href="{{ route('produit.index') }}">Stock Caisses</a>
+             <a class="text-blue-600 " href="{{ route('produit.index') }}">Stock Produits</a>
          </div>
         <div class="pb-5 border rounded-md shadow-md hover:shadow-2xl">
            <img class="object-cover w-full rounded h-36" src="{{ asset('img/achat.png') }}" alt="">
-            <a class="text-blue-600 " href="{{ route('achat.index') }}">Entrees Caisse</a>
+            <a class="text-blue-600 " href="{{ route('achat.index') }}">Entrees Produits</a>
         </div>
 
         @endif
         <div class="pb-5 bg-white border rounded-md shadow-md hover:shadow-2xl">
            <img class="rounded h-36" src="{{ asset('img/vendre.webp') }}" alt="">
-            <a class="text-blue-600 " href="{{ route('vente.index') }}">Ventes ou Sortie</a>
+            <a class="text-blue-600 " href="{{ route('vente.index') }}">Ventes ou Sorties</a>
         </div>
         <div class="pb-5 bg-white border rounded-md shadow-md ">
             <img class="rounded h-36" src="{{ asset('img/dette.jpg') }}" alt="">

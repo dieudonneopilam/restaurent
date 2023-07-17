@@ -38,15 +38,15 @@
                     {{ $message }}
                 @enderror
             </div>
-            <div class="w-full m-3">
+            {{-- <div class="w-full m-3">
                 <label for="">Prix Total</label>
                 <input wire:model='prix_achat' class="w-full h-10 p-1 pl-2 border rounded" type="number">
-            </div>
-            <div class='ml-3 text-red-600'>
+            </div> --}}
+            {{-- <div class='ml-3 text-red-600'>
                 @error('prix_achat')
                     {{ $message }}
                 @enderror
-            </div>
+            </div> --}}
             <div class="w-full m-3">
                 <button type="submit" class="w-full h-10 p-1 font-bold text-white bg-blue-500 rounded">Enregistrer</button>
             </div>

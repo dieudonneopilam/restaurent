@@ -16,7 +16,8 @@ class Depenses extends Model
         'user_id',
         'deleted',
         'produit_id',
-        'qte_achat'
+        'qte_achat',
+        'devise_depense'
     ];
 
     public function user()

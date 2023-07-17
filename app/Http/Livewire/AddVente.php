@@ -69,11 +69,11 @@ class AddVente extends Component
                 'date_vente' => now(),
             ]);
         }
-
         return redirect()->route('vente.index');
     }
 
-    public function update()
+    public function change($id)
     {
+        dd($id);
     }
 }

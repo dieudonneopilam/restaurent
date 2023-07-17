@@ -20,6 +20,7 @@ class DepenseDataTable extends Component
     public $montant;
     public $produit_id;
     public $server_id;
+    public $devise_depense;
     public $qte;
     public $prix_vente;
     public $me;
@@ -43,11 +44,18 @@ class DepenseDataTable extends Component
         if (Auth::user()->is_comptoire or Auth::user()->is_admin or Auth::user()->is_visit) {
             $depenses = Depenses::OrderBy('date_depense','desc')->where('deleted','=',0)->where('date_depense', 'LIKE', "%$this->search%")->paginate($this->nbpage);
 
-            $depenses_sum = Depenses::where('date_depense', 'LIKE', "%$this->search%")->where('deleted','=',0)->get();
+            $depenses_sum = Depenses::where('date_depense', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('devise_depense','=','Fc')->get();
 
-            $montant_valide = 0;
+            $montant_valide_Fc = 0;
             foreach($depenses_sum as $depense_sum){
-                $montant_valide = $montant_valide + $depense_sum->montant;
+                $montant_valide_Fc = $montant_valide_Fc + $depense_sum->montant;
+            }
+
+            $depenses_sum = Depenses::where('date_depense', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('devise_depense','=','$')->get();
+
+            $montant_valide_Usd = 0;
+            foreach($depenses_sum as $depense_sum){
+                $montant_valide_Usd = $montant_valide_Usd + $depense_sum->montant;
             }
 
         }
@@ -55,7 +63,8 @@ class DepenseDataTable extends Component
         return view('livewire.depense-data-table',[
             'depenses' => $depenses,
             'produits' => Produit::all(),
-            'montant_valide' => $montant_valide,
+            'montant_valide_Fc' => $montant_valide_Fc,
+            'montant_valide_Usd' => $montant_valide_Usd,
         ]);
     }
 
@@ -74,9 +83,9 @@ class DepenseDataTable extends Component
     public function submit()
     {
          $this->rules = [
-
             'montant' => ['required', 'numeric'],
             'motif' => ['required'],
+            'devise_depense' => ['required'],
         ];
 
         if ($this->achat) {
@@ -92,8 +101,10 @@ class DepenseDataTable extends Component
                 'motif' => $this->motif,
                 'montant' => $this->montant,
                 'date_depense' => now(),
+                'devise_depense' => $this->devise_depense,
                 'produit_id' => $this->produit_id,
                 'qte_achat' => $this->qte,
+
                 'user_id' => Auth::user()->id
             ]);
 
@@ -106,6 +117,7 @@ class DepenseDataTable extends Component
                 'motif' => $this->motif,
                 'montant' => $this->montant,
                 'date_depense' => now(),
+                'devise_depense' => $this->devise_depense,
                 'user_id' => Auth::user()->id
             ]);
         }

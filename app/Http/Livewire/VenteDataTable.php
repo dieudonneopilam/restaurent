@@ -18,9 +18,12 @@ class VenteDataTable extends Component
     public $me_dette;
     public $produit_id;
     public $server_id;
+    public $devise_prix;
     public $qte_vendu;
     public $prix_vente;
+    public $qte_stock;
     public $me;
+    public $lable_prix;
     public $search = '';
     public $nbpage = 5;
     public $open = true;
@@ -43,13 +46,22 @@ class VenteDataTable extends Component
         if (Auth::user()->is_server) {
             $ventes = Vente::where('user_id','=',Auth::user()->id)->where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->OrderBy('date_vente','desc')->paginate($this->nbpage);
 
-            $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('user_id','=',Auth::user()->id)->get();
-            $montant_valide = 0;
+            $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('devise_prix','=','Fc')->where('user_id','=',Auth::user()->id)->get();
+            $montant_valide_Fc = 0;
             $montant_invalide = 0;
             foreach($ventes_sum as $vente_sum){
-
                 if ($vente_sum->validate == 1) {
-                    $montant_valide = $montant_valide + $vente_sum->prix_vente * $vente_sum->qte_vente;
+                    $montant_valide_Fc = $montant_valide_Fc + $vente_sum->prix_vente * $vente_sum->qte_vente;
+                }else{
+                    $montant_invalide = $montant_invalide + $vente_sum->prix_vente * $vente_sum->qte_vente;
+                }
+            }
+            $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('devise_prix','=','Fc')->where('user_id','=',Auth::user()->id)->get();
+            $montant_valide_Usd = 0;
+            $montant_invalide = 0;
+            foreach($ventes_sum as $vente_sum){
+                if ($vente_sum->validate == 1) {
+                    $montant_valide_Usd = $montant_valide_Usd + $vente_sum->prix_vente * $vente_sum->qte_vente;
                 }else{
                     $montant_invalide = $montant_invalide + $vente_sum->prix_vente * $vente_sum->qte_vente;
                 }
@@ -57,13 +69,24 @@ class VenteDataTable extends Component
         }elseif (Auth::user()->is_comptoire or Auth::user()->is_admin or Auth::user()->is_visit) {
             $ventes = Vente::OrderBy('date_vente','desc')->where('deleted','=',0)->where('date_vente', 'LIKE', "%$this->search%")->paginate($this->nbpage);
 
-            $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->get();
-            $montant_valide = 0;
+            $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('devise_prix','=','Fc')->get();
+            $montant_valide_Fc = 0;
             $montant_invalide = 0;
             foreach($ventes_sum as $vente_sum){
 
                 if ($vente_sum->validate == 1) {
-                    $montant_valide = $montant_valide + $vente_sum->prix_vente * $vente_sum->qte_vente;
+                    $montant_valide_Fc = $montant_valide_Fc + $vente_sum->prix_vente * $vente_sum->qte_vente;
+                }else{
+                    $montant_invalide = $montant_invalide + $vente_sum->prix_vente * $vente_sum->qte_vente;
+                }
+            }
+            $ventes_sum = Vente::where('date_vente', 'LIKE', "%$this->search%")->where('deleted','=',0)->where('devise_prix','=','$')->get();
+            $montant_valide_Usd = 0;
+            $montant_invalide = 0;
+            foreach($ventes_sum as $vente_sum){
+
+                if ($vente_sum->validate == 1) {
+                    $montant_valide_Usd = $montant_valide_Usd + $vente_sum->prix_vente * $vente_sum->qte_vente;
                 }else{
                     $montant_invalide = $montant_invalide + $vente_sum->prix_vente * $vente_sum->qte_vente;
                 }
@@ -78,8 +101,8 @@ class VenteDataTable extends Component
                       ->orWhere('is_server', '=', 1)
                       ->orWhere('is_comptoire', '=', 1);
             })->get(),
-            'montant_valide' => $montant_valide,
-            'montant_invalide' => $montant_invalide
+            'montant_valide_Fc' => $montant_valide_Fc,
+            'montant_valide_Usd' => $montant_valide_Usd
         ]);
     }
 
@@ -123,6 +146,7 @@ class VenteDataTable extends Component
                         'qte_vente' => $this->qte_vendu,
                         'prix_vente' => $this->prix_vente,
                         'user_id' => $this->server_id,
+                        'devise_prix' => $this->devise_prix,
                         'date_vente' => now(),
                         'validate' => 1
                     ]);
@@ -131,6 +155,7 @@ class VenteDataTable extends Component
                         'produit_id' => $this->produit_id,
                         'qte_dette' => $this->qte_vendu,
                         'prix_vente' => $this->prix_vente,
+                        'devise_prix' => $this->devise_prix,
                         'user_id' => Auth::user()->id,
                         'date_dette' => now(),
                         'name_dette' => $this->name_dette,
@@ -141,6 +166,7 @@ class VenteDataTable extends Component
                         'qte_dette' => $this->qte_vendu,
                         'prix_vente' => $this->prix_vente,
                         'user_id' => $this->server_id,
+                        'devise_prix' => $this->devise_prix,
                         'date_dette' => now(),
                         'name_dette' => $this->name_dette,
                     ]);
@@ -152,6 +178,7 @@ class VenteDataTable extends Component
                         'prix_vente' => $this->prix_vente,
                         'user_id' => Auth::user()->id,
                         'date_vente' => now(),
+                        'devise_prix' => $this->devise_prix,
                         'validate' => 1
                     ]);
                 }
@@ -168,6 +195,7 @@ class VenteDataTable extends Component
                         'prix_vente' => $this->prix_vente,
                         'user_id' => Auth::user()->id,
                         'date_dette' => now(),
+                        'devise_prix' => $this->devise_prix,
                         'name_dette' => $this->name_dette,
                     ]);
                     $produit = Produit::findOrFail($this->produit_id);
@@ -181,6 +209,7 @@ class VenteDataTable extends Component
                         'prix_vente' => $this->prix_vente,
                         'user_id' => Auth::user()->id,
                         'date_vente' => now(),
+                        'devise_prix' => $this->devise_prix,
                     ]);
                 }
 
@@ -222,11 +251,15 @@ class VenteDataTable extends Component
         $produit->update([
             'qte' => $produit->qte + $vente->qte_vente
         ]);
-
     }
     public function updatingProduitId($value){
         if($value){
-            $this->file = Produit::where('id','=',$value)->first();
+            $produit = Produit::where('id','=',$value)->first();
+            $this->file = $produit;
+            $this->prix_vente = $produit->prix_vente;
+            $this->label_prix = $produit->prix_vente.' '.$produit->devise_prix;
+            $this->qte_stock = $produit->qte;
+            $this->devise_prix = $produit->devise_prix;
         }
     }
     public function updatingQteVendu($value){
