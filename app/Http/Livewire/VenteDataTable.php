@@ -265,4 +265,5 @@ class VenteDataTable extends Component
     public function updatingQteVendu($value){
 
     }
+    
 }
